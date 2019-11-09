@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
-import { Container, Button } from 'reactstrap'
+import { Container, Button, Badge} from 'reactstrap'
+import AddUserModal from './AddUserModal'
 import axios from 'axios'
 
 
 export default function Users() {
 
   const [users, setUsers] = useState([])
+  const [addModal, setAddModal] = useState(false)
 
   useEffect(() => {
     axios.get(`https://reservas.rota.salesianas.com/usuarios.php/usuarios`)
@@ -20,7 +22,7 @@ export default function Users() {
         <span>
         {
           row.ADMIN === 1 ?
-           "Administrador"
+          <Badge color="warning">Administrador</Badge>
            :
            "Usuario"
         }
@@ -70,6 +72,8 @@ export default function Users() {
 
   return (
     <Container>
+    <Button onClick = {() => setAddModal( !addModal )}>Añadir</Button>
+      <AddUserModal showAddModalProps={() => setAddModal(!addModal)} modal={addModal} />
       <BootstrapTable keyField='id' data={ users } columns={ columns } responsive />
     </Container>
   )

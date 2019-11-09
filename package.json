@@ -32,6 +32,7 @@
     "react-bootstrap-table-next": "^3.2.1",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.11.0",
+    "react-hook-form": "^3.27.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.8.6",
