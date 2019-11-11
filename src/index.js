@@ -4,9 +4,10 @@ import 'react-app-polyfill/stable';
 import './polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.css'; //comentar para quitar los estilos del core y poder cargar solo los de bootstrap
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+//import 'bootstrap/dist/css/bootstrap.min.css'; Descomentar para cargar los estilos de bootstrap
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
