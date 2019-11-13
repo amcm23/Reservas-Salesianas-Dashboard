@@ -2,8 +2,10 @@ import React from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import UserForm from "./UserForm";
 
-function AddUserModal(props) {
-  const { modal } = props;
+function EditUserModal(props) {
+  const { modal, user, hideEdit } = props;
+
+  console.log("user dentro de edit modal: ", user);
 
   function showModal() {
     props.showAddModalProps();
@@ -11,9 +13,14 @@ function AddUserModal(props) {
 
   return (
     <Modal isOpen={modal} toggle={showModal} size="xl">
-      <ModalHeader toggle={showModal}>Añadir Usuario</ModalHeader>
+      <ModalHeader toggle={showModal}>Editar Usuario</ModalHeader>
       <ModalBody>
-        <UserForm fetchUsers={() => props.fetchUsers()} showModal={showModal} />
+        <UserForm
+          fetchUsers={() => props.fetchUsers()}
+          showModal={showModal}
+          hideModal={hideEdit}
+          user={user}
+        />
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={showModal}>
@@ -24,4 +31,4 @@ function AddUserModal(props) {
   );
 }
 
-export default AddUserModal;
+export default EditUserModal;

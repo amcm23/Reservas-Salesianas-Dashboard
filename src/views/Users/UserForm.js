@@ -5,48 +5,101 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function UserForm(props) {
-  const { register, handleSubmit, errors } = useForm();
+  const { user } = props;
+  console.log("user dentro del user form: ", user);
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      dni: user && user.DNI,
+      nombre: user && user.NOMBRE,
+      papellido: user && user.P_APELLIDO,
+      sapellido: user && user.S_APELLIDO,
+      direccion: user && user.DIRECCION,
+      email: user && user.EMAIL,
+      telefono: user && user.TELEFONO,
+      pass: user && user.PASS
+    }
+  });
   const onSubmit = data => {
     console.log(data);
 
-    Swal.fire({
-      title: "¿Desea confirmar el registro?",
-      text: "Se creará el usuario.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "primary",
-      cancelButtonColor: ""
-    }).then(result => {
-      if (result.value) {
-        axios({
-          method: "post",
-          url:
-            "https://reservas.rota.salesianas.com/public/usuarios.php/usuarios",
-          data: {
-            dni: data.dni,
-            nombre: data.nombre,
-            papellido: data.papellido,
-            sapellido: data.sapellido,
-            direccion: data.direccion,
-            email: data.email,
-            telefono: data.telefono,
-            pass: data.pass
-          }
-        }).then(res => {
-          console.log(res);
-          console.log(res.data);
-          props.fetchUsers();
-          props.showModal();
-          Swal.fire({
-            title: "Registrado",
-            text: "Usuario registrado con éxito.",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500
+    if (user) {
+      Swal.fire({
+        title: "¿Desea confirmar la edición?",
+        text: "Se editará el usuario.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "primary",
+        cancelButtonColor: ""
+      }).then(result => {
+        if (result.value) {
+          axios({
+            method: "put",
+            url: `https://reservas.rota.salesianas.com/public/usuarios.php/usuarios/modificar/${user.ID}`,
+            data: {
+              dni: data.dni,
+              nombre: data.nombre,
+              papellido: data.papellido,
+              sapellido: data.sapellido,
+              direccion: data.direccion,
+              email: data.email,
+              telefono: data.telefono,
+              pass: data.pass
+            }
+          }).then(res => {
+            console.log(res);
+            console.log(res.data);
+            props.fetchUsers();
+            props.showModal();
+            Swal.fire({
+              title: "Editado",
+              text: "Usuario editado con éxito.",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500
+            });
           });
-        });
-      }
-    });
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "¿Desea confirmar el registro?",
+        text: "Se creará el usuario.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "primary",
+        cancelButtonColor: ""
+      }).then(result => {
+        if (result.value) {
+          axios({
+            method: "post",
+            url:
+              "https://reservas.rota.salesianas.com/public/usuarios.php/usuarios",
+            data: {
+              dni: data.dni,
+              nombre: data.nombre,
+              papellido: data.papellido,
+              sapellido: data.sapellido,
+              direccion: data.direccion,
+              email: data.email,
+              telefono: data.telefono,
+              pass: data.pass
+            }
+          }).then(res => {
+            console.log(res);
+            console.log(res.data);
+            props.fetchUsers();
+            props.showModal();
+            Swal.fire({
+              title: "Registrado",
+              text: "Usuario registrado con éxito.",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          });
+        }
+      });
+    }
   };
 
   //console.log(watch("example")); // watch input value by passing the name of it

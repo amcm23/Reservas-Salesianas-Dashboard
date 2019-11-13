@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Container, Button, Badge } from "reactstrap";
 import AddUserModal from "./AddUserModal";
+import EditUserModal from "./EditUserModal";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [addModal, setAddModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -62,8 +65,14 @@ export default function Users() {
     });
   }
 
-  function handleEdit(id) {
-    console.log("editing: ", id);
+  function handleEdit(user) {
+    console.log("editing: ", user);
+    setEditModal(true);
+    setUserToEdit(user);
+  }
+
+  function hideEdit() {
+    setEditModal(false);
   }
 
   function optionsFormatter(cell, row) {
@@ -72,7 +81,7 @@ export default function Users() {
         <Button
           color="primary"
           style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
-          onClick={() => handleEdit(row.ID)}
+          onClick={() => handleEdit(row)}
         >
           Editar
         </Button>
@@ -145,6 +154,13 @@ export default function Users() {
         showAddModalProps={() => setAddModal(!addModal)}
         modal={addModal}
         fetchUsers={() => fetchUsers()}
+      />
+      <EditUserModal
+        showAddModalProps={() => setEditModal(!editModal)}
+        modal={editModal}
+        fetchUsers={() => fetchUsers()}
+        hideModal={hideEdit}
+        user={userToEdit}
       />
       <BootstrapTable
         keyField="id"
