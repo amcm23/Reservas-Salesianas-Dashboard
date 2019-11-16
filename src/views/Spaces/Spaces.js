@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Container, Button, Badge } from "reactstrap";
-import AddUserModal from "./AddUserModal";
+import { Container, Button, Badge, Alert } from "reactstrap";
+import AddSpaceModal from "./AddSpaceModal";
 import EditUserModal from "./EditUserModal";
+import TypesModal from "./TypesModal";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
+export default function Spaces() {
+  const [spaces, setSpaces] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
+  const [typesModal, setTypesModal] = useState(false);
 
   useEffect(() => {
-    fetchUsers();
+    fetchSpaces();
   }, []);
 
-  function fetchUsers() {
+  function fetchSpaces() {
     axios
-      .get(`https://reservas.rota.salesianas.com/public/usuarios.php/usuarios`)
+      .get(`https://reservas.rota.salesianas.com/public/espacios.php/espacios`)
       .then(res => {
-        setUsers(res.data);
+        setSpaces(res.data);
+        console.log("ESPACIOS: ", res.data);
       });
-  }
-
-  function typeFormatter(cell, row) {
-    return (
-      <span>
-        {row.ADMIN === 1 ? (
-          <Badge color="warning">Administrador</Badge>
-        ) : (
-          "Usuario"
-        )}
-      </span>
-    );
+    console.log("ESPACIOS: ", spaces);
   }
 
   function handleDelete(id) {
@@ -52,7 +44,7 @@ export default function Users() {
             `https://reservas.rota.salesianas.com/public/usuarios.php/usuarios/delete/${id}`
           )
           .then(result => {
-            fetchUsers();
+            fetchSpaces();
             Swal.fire({
               title: "Eliminado",
               text: "Usuario eliminado con éxito.",
@@ -102,37 +94,16 @@ export default function Users() {
       text: "ID"
     },
     {
-      dataField: "DNI",
-      text: "DNI"
-    },
-    {
       dataField: "NOMBRE",
       text: "Nombre"
     },
     {
-      dataField: "P_APELLIDO",
-      text: "1er Apellido"
+      dataField: "PRECIO",
+      text: "Precio"
     },
     {
-      dataField: "S_APELLIDO",
-      text: "2º Apellido"
-    },
-    {
-      dataField: "DIRECCION",
-      text: "Dirección"
-    },
-    {
-      dataField: "EMAIL",
-      text: "Email"
-    },
-    {
-      dataField: "TELEFONO",
-      text: "Teléfono"
-    },
-    {
-      dataField: "ADMIN",
-      text: "Tipo",
-      formatter: typeFormatter
+      dataField: "TIPO",
+      text: "Tipo"
     },
     {
       dataField: "",
@@ -145,30 +116,48 @@ export default function Users() {
     <Container>
       <Button
         onClick={() => setAddModal(!addModal)}
-        style={{ marginBottom: "1rem" }}
+        style={{ marginBottom: "1rem", marginRight: "1rem" }}
         color="primary"
       >
         Añadir
       </Button>
-      <AddUserModal
+      <Button
+        onClick={() => setTypesModal(!typesModal)}
+        style={{ marginBottom: "1rem" }}
+        color="primary"
+      >
+        Tipos de espacios
+      </Button>
+      <AddSpaceModal
         showAddModalProps={() => setAddModal(!addModal)}
         modal={addModal}
-        fetchUsers={() => fetchUsers()}
+        fetchSpaces={() => fetchSpaces()}
       />
       <EditUserModal
         showAddModalProps={() => setEditModal(!editModal)}
         modal={editModal}
-        fetchUsers={() => fetchUsers()}
+        fetchUsers={() => fetchSpaces()}
         hideModal={hideEdit}
         user={userToEdit}
       />
-      <BootstrapTable
-        keyField="id"
-        data={users}
-        columns={columns}
-        responsive
-        stripped={true}
+      <TypesModal
+        showModal={() => setTypesModal(!typesModal)}
+        modal={typesModal}
+        fetchUsers={() => fetchSpaces()}
+        hideModal={() => setTypesModal(false)}
       />
+
+      {spaces === "No existen espacios en la BBDD." ? (
+        <Alert color="warning">No hay espacios todavía</Alert>
+      ) : (
+        <BootstrapTable
+          keyField="id"
+          data={spaces}
+          columns={columns}
+          responsive
+          stripped={true}
+        />
+      )}
     </Container>
   );
 }
