@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Container, Button, Badge, Alert } from "reactstrap";
 import AddSpaceModal from "./AddSpaceModal";
-import EditUserModal from "./EditUserModal";
+import EditSpaceModal from "./EditSpaceModal";
 import TypesModal from "./TypesModal";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -11,7 +11,7 @@ export default function Spaces() {
   const [spaces, setSpaces] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userToEdit, setUserToEdit] = useState(null);
+  const [spaceToEdit, setSpaceToEdit] = useState(null);
   const [typesModal, setTypesModal] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Spaces() {
   function handleDelete(id) {
     console.log("deleting: ", id);
     Swal.fire({
-      title: "¿Está seguro que desea eliminar el usuario?",
+      title: "¿Está seguro que desea eliminar el espacio?",
       text: "Esta acción será irreversible.",
       icon: "warning",
       showCancelButton: true,
@@ -41,13 +41,13 @@ export default function Spaces() {
       if (result.value) {
         axios
           .delete(
-            `https://reservas.rota.salesianas.com/public/usuarios.php/usuarios/delete/${id}`
+            `https://reservas.rota.salesianas.com/public/espacios.php/espacios/delete/${id}`
           )
           .then(result => {
             fetchSpaces();
             Swal.fire({
               title: "Eliminado",
-              text: "Usuario eliminado con éxito.",
+              text: "Espacio eliminado con éxito.",
               icon: "success",
               showConfirmButton: false,
               timer: 1500
@@ -57,10 +57,10 @@ export default function Spaces() {
     });
   }
 
-  function handleEdit(user) {
-    console.log("editing: ", user);
+  function handleEdit(space) {
+    console.log("editing: ", space);
     setEditModal(true);
-    setUserToEdit(user);
+    setSpaceToEdit(space);
   }
 
   function hideEdit() {
@@ -133,12 +133,12 @@ export default function Spaces() {
         modal={addModal}
         fetchSpaces={() => fetchSpaces()}
       />
-      <EditUserModal
+      <EditSpaceModal
         showAddModalProps={() => setEditModal(!editModal)}
         modal={editModal}
-        fetchUsers={() => fetchSpaces()}
+        fetchSpaces={() => fetchSpaces()}
         hideModal={hideEdit}
-        user={userToEdit}
+        space={spaceToEdit}
       />
       <TypesModal
         showModal={() => setTypesModal(!typesModal)}
