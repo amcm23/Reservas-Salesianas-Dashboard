@@ -20,7 +20,7 @@ export default function SpaceForm(props) {
     if (space) {
       Swal.fire({
         title: "¿Desea confirmar la edición?",
-        text: "Se editará el usuario.",
+        text: "Se editará el espacio.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "primary",
@@ -140,7 +140,7 @@ export default function SpaceForm(props) {
         </Col>
       </Row>
 
-      <Button type="submit">Añadir Espacio</Button>
+      <Button type="submit">{space ? "Editar" : "Añadir"} Espacio</Button>
     </form>
   );
 }
