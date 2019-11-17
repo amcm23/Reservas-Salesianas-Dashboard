@@ -27,7 +27,7 @@ export default {
     },
     {
       name: "Reservas",
-      url: "/theme/typography",
+      url: "/reservations",
       icon: "icon-pencil"
     }
   ]
