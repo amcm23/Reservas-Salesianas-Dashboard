@@ -135,6 +135,10 @@ export default function Users() {
       formatter: typeFormatter
     },
     {
+      dataField: "ACTIVO",
+      text: "Estado"
+    },
+    {
       dataField: "",
       text: "Opciones",
       formatter: optionsFormatter
@@ -167,7 +171,12 @@ export default function Users() {
         data={users}
         columns={columns}
         responsive
-        stripped={true}
+        striped={true}
+        style={{
+          overflow: "auto",
+          display: "block",
+          tableLayout: "auto"
+        }}
       />
     </Container>
   );

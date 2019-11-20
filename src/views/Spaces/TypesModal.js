@@ -153,7 +153,7 @@ export default function Types(props) {
               data={types}
               columns={columns}
               responsive
-              stripped={true}
+              striped={true}
               bordered={false}
             />
           )}

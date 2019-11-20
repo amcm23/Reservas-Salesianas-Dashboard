@@ -144,7 +144,12 @@ export default function Spaces() {
           data={reservations}
           columns={columns}
           responsive
-          stripped={true}
+          striped={true}
+          style={{
+            overflow: "auto",
+            display: "block",
+            tableLayout: "auto"
+          }}
         />
       )}
     </Container>
