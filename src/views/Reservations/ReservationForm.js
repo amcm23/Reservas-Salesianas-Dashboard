@@ -5,23 +5,26 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { DatePicker } from "react-datepicker";
 import moment from "moment";
+import { createReservation, editReservation } from "../../actions/reservations";
 
 export default function ReservationForm(props) {
-  const { space, usuarios, espacios } = props;
-  console.log("space dentro del space form: ", space);
+  const { usuarios, espacios, reservation, hour, day, space } = props;
   const [fecha, setFecha] = useState("");
   const { register, handleSubmit, setValue, errors } = useForm({
     defaultValues: {
-      nombre: space && space.NOMBRE,
-      precio: space && space.PRECIO,
-      tipo: space && space.TIPO
+      usuario: reservation && reservation.USUARIO,
+      espacio: space ? space : reservation && reservation.ESPACIO,
+      fecha: day
+        ? moment(day).format("YYYY-MM-DD")
+        : reservation && reservation.FECHA,
+      hora: hour ? hour : reservation && reservation.HORA
     }
   });
 
   const onSubmit = data => {
     console.log(data);
 
-    if (space) {
+    if (reservation) {
       Swal.fire({
         title: "¿Desea confirmar la edición?",
         text: "Se editará .",
@@ -31,27 +34,26 @@ export default function ReservationForm(props) {
         cancelButtonColor: ""
       }).then(result => {
         if (result.value) {
-          axios({
-            method: "put",
-            url: `https://reservas.rota.salesianas.com/public/reservas.php/reservas/modificar/${space.ID}`,
-            data: {
-              nombre: data.nombre,
-              precio: data.precio,
-              tipo: data.tipo
+          editReservation(
+            {
+              usuario: data.usuario,
+              espacio: data.espacio,
+              fecha: data.fecha,
+              hora: data.hora
+            },
+            reservation.ID,
+            () => {
+              props.fetchReservations();
+              props.showModal();
+              Swal.fire({
+                title: "Editada",
+                text: "Reserva editada con éxito.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              });
             }
-          }).then(res => {
-            console.log(res);
-            console.log(res.data);
-            props.fetchSpaces();
-            props.showModal();
-            Swal.fire({
-              title: "Editado",
-              text: "Espacio editado con éxito.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          });
+          );
         }
       });
     } else {
@@ -64,29 +66,25 @@ export default function ReservationForm(props) {
         cancelButtonColor: ""
       }).then(result => {
         if (result.value) {
-          axios({
-            method: "post",
-            url:
-              "https://reservas.rota.salesianas.com/public/reservas.php/reservas",
-            data: {
+          createReservation(
+            {
               usuario: data.usuario,
               espacio: data.espacio,
               fecha: data.fecha,
               hora: data.hora
+            },
+            () => {
+              props.fetchReservations();
+              props.showModal();
+              Swal.fire({
+                title: "Creada",
+                text: "Reserva creada con éxito.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              });
             }
-          }).then(res => {
-            console.log(res);
-            console.log(res.data);
-            props.fetchReservations();
-            props.showModal();
-            Swal.fire({
-              title: "Creada",
-              text: "Reserva creada con éxito.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          });
+          );
         }
       });
     }
@@ -114,7 +112,7 @@ export default function ReservationForm(props) {
           <Label>Espacio (*)</Label>
         </Col>
         <Col md={10}>
-          <select name="espacio" ref={register}>
+          <select name="espacio" ref={register} disabled={space ? true : false}>
             {espacios !== "No existen espacios en la BBDD." &&
               espacios.map(espacio => {
                 return <option value={espacio.ID}>{espacio.NOMBRE}</option>;
@@ -136,6 +134,7 @@ export default function ReservationForm(props) {
             ref={register({ required: true })}
             placeholder="Fecha"
             style={{ width: "100%" }}
+            disabled={day ? true : false}
           />
           {errors.fecha && (
             <span style={{ color: "red" }}>Campo obligatorio</span>
@@ -153,6 +152,7 @@ export default function ReservationForm(props) {
             ref={register({ required: true })}
             placeholder="Fecha"
             style={{ width: "100%" }}
+            disabled={hour ? true : false}
           />
           {errors.hora && (
             <span style={{ color: "red" }}>Campo obligatorio</span>
@@ -160,7 +160,7 @@ export default function ReservationForm(props) {
         </Col>
       </Row>
 
-      <Button type="submit">{space ? "Editar" : "Crear"} Reserva</Button>
+      <Button type="submit">{reservation ? "Editar" : "Crear"} Reserva</Button>
     </form>
   );
 }

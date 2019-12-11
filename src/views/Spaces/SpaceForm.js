@@ -3,6 +3,7 @@ import useForm from "react-hook-form";
 import { Row, Col, Button, Label } from "reactstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { editSpaces, createSpace } from "../../actions/spaces";
 
 export default function SpaceForm(props) {
   const { space, tipos } = props;
@@ -27,27 +28,25 @@ export default function SpaceForm(props) {
         cancelButtonColor: ""
       }).then(result => {
         if (result.value) {
-          axios({
-            method: "put",
-            url: `https://reservas.rota.salesianas.com/public/espacios.php/espacios/modificar/${space.ID}`,
-            data: {
+          editSpaces(
+            {
               nombre: data.nombre,
               precio: data.precio,
               tipo: data.tipo
+            },
+            space.ID,
+            () => {
+              props.fetchSpaces();
+              props.showModal();
+              Swal.fire({
+                title: "Editado",
+                text: "Espacio editado con éxito.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              });
             }
-          }).then(res => {
-            console.log(res);
-            console.log(res.data);
-            props.fetchSpaces();
-            props.showModal();
-            Swal.fire({
-              title: "Editado",
-              text: "Espacio editado con éxito.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          });
+          );
         }
       });
     } else {
@@ -60,28 +59,25 @@ export default function SpaceForm(props) {
         cancelButtonColor: ""
       }).then(result => {
         if (result.value) {
-          axios({
-            method: "post",
-            url:
-              "https://reservas.rota.salesianas.com/public/espacios.php/espacios",
-            data: {
+          createSpace(
+            {
               nombre: data.nombre,
               precio: data.precio,
-              tipo: data.tipo
+              tipo: data.tipo,
+              centro: 1
+            },
+            () => {
+              props.fetchSpaces();
+              props.showModal();
+              Swal.fire({
+                title: "Registrado",
+                text: "Usuario registrado con éxito.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              });
             }
-          }).then(res => {
-            console.log(res);
-            console.log(res.data);
-            props.fetchSpaces();
-            props.showModal();
-            Swal.fire({
-              title: "Registrado",
-              text: "Usuario registrado con éxito.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          });
+          );
         }
       });
     }
@@ -92,6 +88,21 @@ export default function SpaceForm(props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Row>
+        <Col md={2}>
+          <Label>Tipo (*)</Label>
+        </Col>
+        <Col md={10}>
+          <select name="tipo" ref={register}>
+            {tipos !== "No existen tipos en la BBDD." &&
+              tipos.map(tipo => {
+                return <option value={tipo.ID}>{tipo.NOMBRE}</option>;
+              })}
+          </select>
+          {errors.s_apellido && (
+            <span style={{ color: "red" }}>Campo obligatorio</span>
+          )}
+        </Col>
+
         <Col md={2}>
           <Label>Nombre (*)</Label>
         </Col>
@@ -125,22 +136,22 @@ export default function SpaceForm(props) {
         </Col>
 
         <Col md={2}>
-          <Label>Tipo (*)</Label>
+          <Label>Recargo</Label>
         </Col>
         <Col md={10}>
-          <select name="tipo" ref={register}>
-            {tipos !== "No existen tipos en la BBDD." &&
-              tipos.map(tipo => {
-                return <option value={tipo.ID}>{tipo.NOMBRE}</option>;
-              })}
-          </select>
-          {errors.s_apellido && (
-            <span style={{ color: "red" }}>Campo obligatorio</span>
-          )}
+          <input
+            name="recargo"
+            defaultValue="0"
+            ref={register({ required: false })}
+            placeholder="Recargo"
+            style={{ width: "100%" }}
+          />
         </Col>
       </Row>
 
-      <Button type="submit">{space ? "Editar" : "Añadir"} Espacio</Button>
+      <Button type="submit" color="primary" style={{ marginTop: "1.5rem" }}>
+        {space ? "Editar" : "Añadir"} Espacio
+      </Button>
     </form>
   );
 }

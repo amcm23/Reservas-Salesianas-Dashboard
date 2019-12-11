@@ -6,6 +6,7 @@ import EditSpaceModal from "./EditSpaceModal";
 import TypesModal from "./TypesModal";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { fetchSpaces, deleteSpaces } from "../../actions/spaces";
 
 export default function Spaces() {
   const [spaces, setSpaces] = useState([{}]);
@@ -15,18 +16,8 @@ export default function Spaces() {
   const [typesModal, setTypesModal] = useState(false);
 
   useEffect(() => {
-    fetchSpaces();
+    fetchSpaces(res => setSpaces(res));
   }, []);
-
-  function fetchSpaces() {
-    axios
-      .get(`https://reservas.rota.salesianas.com/public/espacios.php/espacios`)
-      .then(res => {
-        setSpaces(res.data);
-        console.log("ESPACIOS: ", res.data);
-      });
-    console.log("ESPACIOS: ", spaces);
-  }
 
   function handleDelete(id) {
     console.log("deleting: ", id);
@@ -39,20 +30,15 @@ export default function Spaces() {
       cancelButtonColor: ""
     }).then(result => {
       if (result.value) {
-        axios
-          .delete(
-            `https://reservas.rota.salesianas.com/public/espacios.php/espacios/delete/${id}`
-          )
-          .then(result => {
-            fetchSpaces();
-            Swal.fire({
-              title: "Eliminado",
-              text: "Espacio eliminado con éxito.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
+        deleteSpaces(id, () => {
+          Swal.fire({
+            title: "Eliminado",
+            text: "Espacio eliminado con éxito.",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
           });
+        });
       }
     });
   }
@@ -131,19 +117,19 @@ export default function Spaces() {
       <AddSpaceModal
         showAddModalProps={() => setAddModal(!addModal)}
         modal={addModal}
-        fetchSpaces={() => fetchSpaces()}
+        fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
       />
       <EditSpaceModal
         showAddModalProps={() => setEditModal(!editModal)}
         modal={editModal}
-        fetchSpaces={() => fetchSpaces()}
+        fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
         hideModal={hideEdit}
         space={spaceToEdit}
       />
       <TypesModal
         showModal={() => setTypesModal(!typesModal)}
         modal={typesModal}
-        fetchUsers={() => fetchSpaces()}
+        fetchUsers={() => fetchSpaces(res => setSpaces(res))}
         hideModal={() => setTypesModal(false)}
       />
 

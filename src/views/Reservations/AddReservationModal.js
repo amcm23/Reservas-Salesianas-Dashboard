@@ -4,8 +4,7 @@ import SpaceForm from "./ReservationForm";
 import axios from "axios";
 
 function AddSpaceModal(props) {
-  const { modal } = props;
-  const [types, setTypes] = useState([]);
+  const { modal, hour, day, space } = props;
   const [users, setUsers] = useState([]);
   const [spaces, setSpaces] = useState([]);
 
@@ -47,6 +46,9 @@ function AddSpaceModal(props) {
           showModal={showModal}
           usuarios={users}
           espacios={spaces}
+          hour={hour}
+          day={day}
+          space={space}
         />
       </ModalBody>
       <ModalFooter>

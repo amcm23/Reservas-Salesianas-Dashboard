@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import SpaceForm from "./ReservationForm";
+import ReservationForm from "./ReservationForm";
 import axios from "axios";
+import {
+  fetchReservations,
+  createReservation,
+  editReservation,
+  deleteReservation
+} from "../../actions/reservations";
+import { fetchSpaces } from "../../actions/spaces";
+import { fetchUsers } from "../../actions/users";
 
-function EditSpaceModal(props) {
-  const { modal, space, hideEdit } = props;
-  const [types, setTypes] = useState([]);
+function EditReservationModal(props) {
+  const { modal, reservation, hideEdit } = props;
 
-  console.log("user dentro de edit modal: ", space);
-
-  function fetchTypes() {
-    axios
-      .get(`https://reservas.rota.salesianas.com/public/tipos.php/tipos`)
-      .then(res => {
-        setTypes(res.data);
-        console.log("TIPOS: ", res.data);
-      });
-    console.log("TIPOS: ", types);
-  }
+  const [users, setUsers] = useState([]);
+  const [spaces, setSpaces] = useState([]);
 
   useEffect(() => {
-    fetchTypes();
-  }, []);
+    fetchUsers(data => setUsers(data));
+    fetchSpaces(data => setSpaces(data));
+  }, [modal]);
 
   function showModal() {
     props.showAddModalProps();
@@ -31,11 +30,12 @@ function EditSpaceModal(props) {
     <Modal isOpen={modal} toggle={showModal} size="xl">
       <ModalHeader toggle={showModal}>Editar Espacio</ModalHeader>
       <ModalBody>
-        <SpaceForm
-          fetchSpaces={() => props.fetchSpaces()}
+        <ReservationForm
+          fetchReservations={() => props.fetchReservations()}
           showModal={showModal}
-          tipos={types}
-          space={space}
+          reservation={reservation}
+          usuarios={users}
+          espacios={spaces}
         />
       </ModalBody>
       <ModalFooter>
@@ -47,4 +47,4 @@ function EditSpaceModal(props) {
   );
 }
 
-export default EditSpaceModal;
+export default EditReservationModal;
