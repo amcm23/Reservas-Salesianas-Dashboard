@@ -9,6 +9,12 @@ import { fetchHoursBySpaceId } from "../../actions/hours";
 import { fetchSpaces } from "../../actions/spaces";
 import AddReservationModal from "../Reservations/AddReservationModal";
 import Swal from "sweetalert2";
+import { checkAuth } from "../../actions/auth";
+import {
+  fetchReservationsFromSpace,
+  fetchReservations
+} from "../../actions/reservations";
+import Cookies from "js-cookie";
 
 // moment.locale('es')
 moment.locale("es", {
@@ -20,12 +26,18 @@ moment.locale("es", {
 
 function Dashboard(props) {
   useEffect(() => {
-    fetchSpaces(res => {
-      setSpaces(res);
-      fetchHoursBySpaceId(res[0].ID, res => {
-        setHours(res);
+    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("currentUser"));
+    if (localStorage.getItem("auth") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else {
+      fetchSpaces(res => {
+        setSpaces(res);
+        fetchHoursBySpaceId(res[0].ID, res => {
+          setHours(res);
+        });
       });
-    });
+    }
   }, []);
 
   const [spaces, setSpaces] = useState([{}]);
@@ -35,6 +47,8 @@ function Dashboard(props) {
   const [addModal, setAddModal] = useState(false);
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
+  const [reservations, setReservations] = useState();
+  const [resFromActSpace, setResFromActSpace] = useState([]);
   const messages = {
     allDay: "Todo el día",
     previous: "Anterior",
@@ -55,6 +69,10 @@ function Dashboard(props) {
     setSelectedSpace(id);
     fetchHoursBySpaceId(id, res => {
       setHours(res);
+    });
+    fetchReservationsFromSpace(id, res => {
+      setReservations(res);
+      console.log("RESERVAS ---> ", res);
     });
   }
 

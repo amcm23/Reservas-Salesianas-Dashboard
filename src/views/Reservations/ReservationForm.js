@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Row, Col, Button, Label } from "reactstrap";
-import axios from "axios";
 import Swal from "sweetalert2";
-import { DatePicker } from "react-datepicker";
 import moment from "moment";
 import { createReservation, editReservation } from "../../actions/reservations";
 
 export default function ReservationForm(props) {
   const { usuarios, espacios, reservation, hour, day, space } = props;
-  const [fecha, setFecha] = useState("");
-  const { register, handleSubmit, setValue, errors } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       usuario: reservation && reservation.USUARIO,
       espacio: space ? space : reservation && reservation.ESPACIO,

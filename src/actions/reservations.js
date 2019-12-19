@@ -9,6 +9,17 @@ export function fetchReservations(done = () => {}) {
     });
 }
 
+export function fetchReservationsFromSpace(id, done = () => {}) {
+  axios
+    .get(
+      `https://reservas.rota.salesianas.com/public/espacios.php/reservas/${id}`
+    )
+    .then(res => {
+      done(res.data);
+      console.log("reservas: ", res.data);
+    });
+}
+
 export function editReservation(data, id, done = () => {}) {
   axios({
     method: "put",
