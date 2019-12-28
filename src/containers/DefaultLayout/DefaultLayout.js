@@ -32,6 +32,7 @@ class DefaultLayout extends Component {
   signOut(e) {
     e.preventDefault();
     localStorage.removeItem("auth");
+    localStorage.removeItem("currentUser");
     this.props.history.push("/login");
   }
 

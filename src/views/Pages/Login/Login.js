@@ -9,14 +9,12 @@ import {
   CardGroup,
   Col,
   Container,
-  Form,
-  Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   Row
 } from "reactstrap";
-
+import jwt_decode from "jwt-decode";
 function Login(props) {
   const { register, handleSubmit, errors } = useForm();
 
@@ -26,7 +24,10 @@ function Login(props) {
       if (res === "No existen usuario en la BBDD con este ID.") {
         alert("Usuario no autorizado");
       } else {
-        localStorage.setItem("auth", data);
+        var decoded = jwt_decode(res.permiso);
+        console.log("DECODED ---> ", decoded.id);
+        localStorage.setItem("auth", res.permiso);
+        localStorage.setItem("currentUser", JSON.stringify(decoded));
         props.history.push("/dashboard");
       }
     });

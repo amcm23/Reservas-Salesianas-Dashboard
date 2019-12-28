@@ -15,6 +15,7 @@ import {
   fetchReservations
 } from "../../actions/reservations";
 import Cookies from "js-cookie";
+import { Calendar } from "@fullcalendar/core";
 
 // moment.locale('es')
 moment.locale("es", {
@@ -25,12 +26,16 @@ moment.locale("es", {
 });
 
 function Dashboard(props) {
+  const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
-    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("currentUser"));
+    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("auth"));
     if (localStorage.getItem("auth") === null) {
       console.log("UNAUTH");
       props.history.push("/login");
     } else {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      console.log("currentUser --> ", currentUser);
+      setCurrentUser(currentUser);
       fetchSpaces(res => {
         setSpaces(res);
         fetchHoursBySpaceId(res[0].ID, res => {
@@ -44,6 +49,7 @@ function Dashboard(props) {
   const [selectedSpace, setSelectedSpace] = useState(false);
   const [hours, setHours] = useState([]);
   const spaceHours = [];
+  const reservationsEvents = [];
   const [addModal, setAddModal] = useState(false);
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
@@ -96,72 +102,106 @@ function Dashboard(props) {
     }
   }
 
+  if (Array.isArray(reservations)) {
+    for (let i = 0; i < reservations.length; i++) {
+      reservationsEvents[i] = {
+        id: reservations[i].ID,
+        usuario: reservations[i].USUARIO,
+        espacio: reservations[i].ESPACIO,
+        dia: reservations[i].FECHA,
+        hora: reservations[i].HORA,
+        start: reservations[i].FECHA + "T" + reservations[i].HORA,
+        hour: reservations[i].HORA,
+        end: reservations[i].FECHA,
+        title: `${moment(reservations[i].HORA, "HH:mm:ss").format("HH:mm")}`,
+        color: `red`,
+        borderColor: "dark",
+        border: "100px",
+        size: 100,
+        allDay: false
+      };
+    }
+  }
+
   return (
     <Container className="animated fadeIn">
-      <AddReservationModal
-        modal={addModal}
-        hour={selectedHour}
-        day={selectedDay}
-        space={selectedSpace}
-        showAddModalProps={() => setAddModal(false)}
-      />
-      <Card>
-        <CardBody>
-          <CardText>
-            <p>Seleccione el espacio a mostrar en el calendario.</p>
-            <p>
-              <select onChange={e => handleSelectSpace(e.target.value)}>
-                {spaces !== "No existen espacios en la BBDD." &&
-                  spaces.map(space => {
-                    return <option value={space.ID}>{space.NOMBRE}</option>;
-                  })}
-              </select>
-            </p>
-          </CardText>
-        </CardBody>
-      </Card>
-      <FullCalendar
-        displayEventTime={true}
-        displayEventEnd={true}
-        //allDayDefault={workshopEvents}
-        locale="es"
-        timeZone="GMT+1"
-        firstDay={1}
-        defaultView="dayGridWeek"
-        messages={messages}
-        allDayDefault={false}
-        popup
-        //localizer={localizer}
-        allDaySlot={false}
-        selectable={true}
-        eventTextColor={"white"}
-        plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-        events={hours !== "No existen espacios en la BBDD." && spaceHours}
-        eventClick={function(info) {
-          var eventObj = info.event;
-          var event = eventObj.extendedProps;
-          console.log("OBJECT CLICKED: ", eventObj);
-          console.log("extended props --> ", event);
-          console.log("day ---> ", moment(eventObj.start).format("DD-MM-YYYY"));
-          if (event.disponible === "1") {
-            setSelectedHour(event.hora);
-            setSelectedDay(eventObj.start);
-            setAddModal(true);
-          } else {
-            Swal.fire("Hora no disponible");
-          }
-        }}
-        header={{
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,dayGridWeek"
-        }}
-        buttonText={{
-          today: "Hoy",
-          month: "Mensual",
-          week: "Semanal"
-        }}
-      />
+      {currentUser && currentUser.admin === "0" ? (
+        <div>ERES UN USUARIO NO ADMIN</div>
+      ) : (
+        <React.Fragment>
+          <AddReservationModal
+            modal={addModal}
+            hour={selectedHour}
+            day={selectedDay}
+            space={selectedSpace}
+            showAddModalProps={() => setAddModal(false)}
+          />
+
+          <Card>
+            <CardBody>
+              <CardText>
+                <p>Seleccione el espacio a mostrar en el calendario.</p>
+                <p>
+                  <select onChange={e => handleSelectSpace(e.target.value)}>
+                    {spaces !== "No existen espacios en la BBDD." &&
+                      spaces.map(space => {
+                        return <option value={space.ID}>{space.NOMBRE}</option>;
+                      })}
+                  </select>
+                </p>
+              </CardText>
+            </CardBody>
+          </Card>
+          <FullCalendar
+            displayEventTime={true}
+            displayEventEnd={true}
+            //allDayDefault={workshopEvents}
+            locale="es"
+            timeZone="GMT+1"
+            firstDay={1}
+            defaultView="dayGridWeek"
+            messages={messages}
+            allDayDefault={false}
+            popup
+            //localizer={localizer}
+            allDaySlot={false}
+            selectable={true}
+            eventTextColor={"white"}
+            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+            events={
+              hours !== "No existen espacios en la BBDD." &&
+              spaceHours.concat(reservationsEvents)
+            }
+            eventClick={function(info) {
+              var eventObj = info.event;
+              var event = eventObj.extendedProps;
+              console.log("OBJECT CLICKED: ", eventObj);
+              console.log("extended props --> ", event);
+              console.log(
+                "day ---> ",
+                moment(eventObj.start).format("DD-MM-YYYY")
+              );
+              if (event.disponible === "1") {
+                setSelectedHour(event.hora);
+                setSelectedDay(eventObj.start);
+                setAddModal(true);
+              } else {
+                Swal.fire("Hora no disponible");
+              }
+            }}
+            header={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,dayGridWeek"
+            }}
+            buttonText={{
+              today: "Hoy",
+              month: "Mensual",
+              week: "Semanal"
+            }}
+          />
+        </React.Fragment>
+      )}
     </Container>
   );
 }

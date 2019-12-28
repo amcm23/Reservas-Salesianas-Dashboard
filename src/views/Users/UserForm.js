@@ -43,7 +43,8 @@ export default function UserForm(props) {
               direccion: data.direccion,
               email: data.email,
               telefono: data.telefono,
-              pass: data.pass
+              pass: data.pass,
+              activo: true
             }
           }).then(res => {
             console.log(res);
