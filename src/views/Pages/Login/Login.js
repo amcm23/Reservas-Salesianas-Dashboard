@@ -15,6 +15,7 @@ import {
   Row
 } from "reactstrap";
 import jwt_decode from "jwt-decode";
+
 function Login(props) {
   const { register, handleSubmit, errors } = useForm();
 
@@ -37,7 +38,7 @@ function Login(props) {
     <div className="app flex-row align-items-center">
       <Container>
         <Row className="justify-content-center">
-          <Col md="8">
+          <Col md="6">
             <CardGroup>
               <Card className="p-4">
                 <CardBody>
@@ -101,11 +102,10 @@ function Login(props) {
               >
                 <CardBody className="text-center">
                   <div>
-                    <h2>Sign up</h2>
+                    <h2>Registrarse</h2>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
+                      Si aún no tienes una cuenta puedes registrarte totalmente
+                      gratis pulsando aquí.
                     </p>
                     <Link to="/register">
                       <Button
@@ -114,7 +114,7 @@ function Login(props) {
                         active
                         tabIndex={-1}
                       >
-                        Register Now!
+                        Regístrate aquí
                       </Button>
                     </Link>
                   </div>
