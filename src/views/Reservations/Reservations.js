@@ -6,7 +6,7 @@ import EditReservationModal from "./EditReservationModal";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function Spaces() {
+export default function Spaces(props) {
   const [reservations, setReservations] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -14,6 +14,19 @@ export default function Spaces() {
 
   useEffect(() => {
     fetchReservations();
+  }, []);
+
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("auth"));
+    if (localStorage.getItem("auth") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      console.log("currentUser --> ", currentUser);
+      setCurrentUser(currentUser);
+    }
   }, []);
 
   function fetchReservations() {

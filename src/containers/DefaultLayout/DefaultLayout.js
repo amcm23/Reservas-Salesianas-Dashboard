@@ -17,6 +17,8 @@ import {
 } from "@coreui/react";
 // sidebar nav config
 import navigation from "../../_nav";
+// sidebar user nav config
+import userNavigation from "../../_user_nav";
 // routes config
 import routes from "../../routes";
 
@@ -25,9 +27,31 @@ const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentUser: null
+    };
+  }
+
   loading = () => (
     <div className="animated fadeIn pt-1 text-center">Loading...</div>
   );
+
+  componentDidMount() {
+    console.log(
+      "AUTHENTICATING IN DEFAULT LAYOUT",
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
+    if (localStorage.getItem("auth") === null) {
+      console.log("UNAUTH");
+      this.props.history.push("/login");
+    } else {
+      this.setState({
+        currentUser: JSON.parse(localStorage.getItem("currentUser"))
+      });
+    }
+  }
 
   signOut(e) {
     e.preventDefault();
@@ -50,7 +74,11 @@ class DefaultLayout extends Component {
             <AppSidebarForm />
             <Suspense>
               <AppSidebarNav
-                navConfig={navigation}
+                navConfig={
+                  this.state.currentUser && this.state.currentUser.admin === "1"
+                    ? navigation
+                    : userNavigation
+                }
                 {...this.props}
                 router={router}
               />

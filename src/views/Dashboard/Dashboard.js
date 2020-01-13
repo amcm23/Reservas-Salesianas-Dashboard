@@ -10,12 +10,8 @@ import { fetchSpaces } from "../../actions/spaces";
 import AddReservationModal from "../Reservations/AddReservationModal";
 import Swal from "sweetalert2";
 import { checkAuth } from "../../actions/auth";
-import {
-  fetchReservationsFromSpace,
-  fetchReservations
-} from "../../actions/reservations";
-import Cookies from "js-cookie";
-import { Calendar } from "@fullcalendar/core";
+import { fetchReservationsFromSpace } from "../../actions/reservations";
+import ReactDOM from "react-dom";
 
 // moment.locale('es')
 moment.locale("es", {
@@ -54,7 +50,6 @@ function Dashboard(props) {
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [reservations, setReservations] = useState();
-  const [resFromActSpace, setResFromActSpace] = useState([]);
   const messages = {
     allDay: "Todo el día",
     previous: "Anterior",
@@ -123,85 +118,105 @@ function Dashboard(props) {
     }
   }
 
+  const EventDetail = ({ event, el }) => {
+    const content = <div>{event.title}</div>;
+    ReactDOM.render(content, el);
+    console.log("EL DAY --> ", moment(event.start).format("DD-MM-YYYY"));
+    if (
+      moment.utc(event.start).format("DD-MM-YYYY-hh:mm:ss") ===
+      "13-01-2020-9:00:00"
+    ) {
+      return false;
+      console.log("DEBERIA SER FALSO COÑO LA AMDRE");
+    } else {
+      return el;
+      console.log("No coincide el dia");
+    }
+  };
+
   return (
     <Container className="animated fadeIn">
-      {currentUser && currentUser.admin === "0" ? (
-        <div>ERES UN USUARIO NO ADMIN</div>
-      ) : (
-        <React.Fragment>
-          <AddReservationModal
-            modal={addModal}
-            hour={selectedHour}
-            day={selectedDay}
-            space={selectedSpace}
-            showAddModalProps={() => setAddModal(false)}
-          />
+      <React.Fragment>
+        <AddReservationModal
+          modal={addModal}
+          hour={selectedHour}
+          day={selectedDay}
+          space={selectedSpace}
+          showAddModalProps={() => setAddModal(false)}
+          fetchReservations={() =>
+            fetchReservationsFromSpace(selectedSpace, res => {
+              setReservations(res);
+              console.log("RESERVAS ---> ", res);
+            })
+          }
+        />
 
-          <Card>
-            <CardBody>
-              <CardText>
-                <p>Seleccione el espacio a mostrar en el calendario.</p>
-                <p>
-                  <select onChange={e => handleSelectSpace(e.target.value)}>
-                    {spaces !== "No existen espacios en la BBDD." &&
-                      spaces.map(space => {
-                        return <option value={space.ID}>{space.NOMBRE}</option>;
-                      })}
-                  </select>
-                </p>
-              </CardText>
-            </CardBody>
-          </Card>
-          <FullCalendar
-            displayEventTime={true}
-            displayEventEnd={true}
-            //allDayDefault={workshopEvents}
-            locale="es"
-            timeZone="GMT+1"
-            firstDay={1}
-            defaultView="dayGridWeek"
-            messages={messages}
-            allDayDefault={false}
-            popup
-            //localizer={localizer}
-            allDaySlot={false}
-            selectable={true}
-            eventTextColor={"white"}
-            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-            events={
-              hours !== "No existen espacios en la BBDD." &&
-              spaceHours.concat(reservationsEvents)
+        <Card>
+          <CardBody>
+            <CardText>
+              <p>Seleccione el espacio a mostrar en el calendario.</p>
+              <p>
+                <select onChange={e => handleSelectSpace(e.target.value)}>
+                  {spaces !== "No existen espacios en la BBDD." &&
+                    spaces.map(space => {
+                      return <option value={space.ID}>{space.NOMBRE}</option>;
+                    })}
+                </select>
+              </p>
+            </CardText>
+          </CardBody>
+        </Card>
+        <FullCalendar
+          displayEventTime={true}
+          displayEventEnd={true}
+          eventRender={EventDetail}
+          //allDayDefault={workshopEvents}
+          locale="es"
+          timeZone="GMT+1"
+          firstDay={1}
+          defaultView="dayGridWeek"
+          messages={messages}
+          allDayDefault={false}
+          popup
+          //localizer={localizer}
+          allDaySlot={false}
+          selectable={true}
+          eventTextColor={"white"}
+          plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+          events={
+            hours !== "No existen espacios en la BBDD." &&
+            spaceHours.concat(reservationsEvents)
+          }
+          eventClick={function(info) {
+            var eventObj = info.event;
+            var event = eventObj.extendedProps;
+            console.log("OBJECT CLICKED: ", eventObj);
+            console.log("extended props --> ", event);
+            console.log(
+              "day ---> ",
+              moment(eventObj.start).format("DD-MM-YYYY")
+            );
+            if (event.disponible === "1") {
+              setSelectedHour(event.hora);
+              setSelectedDay(eventObj.start);
+              setAddModal(true);
+            } else {
+              Swal.fire("Hora no disponible");
             }
-            eventClick={function(info) {
-              var eventObj = info.event;
-              var event = eventObj.extendedProps;
-              console.log("OBJECT CLICKED: ", eventObj);
-              console.log("extended props --> ", event);
-              console.log(
-                "day ---> ",
-                moment(eventObj.start).format("DD-MM-YYYY")
-              );
-              if (event.disponible === "1") {
-                setSelectedHour(event.hora);
-                setSelectedDay(eventObj.start);
-                setAddModal(true);
-              } else {
-                Swal.fire("Hora no disponible");
-              }
-            }}
-            header={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,dayGridWeek"
-            }}
-            buttonText={{
-              today: "Hoy",
-              month: "Mensual",
-              week: "Semanal"
-            }}
-          />
-        </React.Fragment>
-      )}
+          }}
+          header={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,dayGridWeek"
+          }}
+          buttonText={{
+            today: "Hoy",
+            month: "Mensual",
+            week: "Semanal"
+          }}
+        />
+      </React.Fragment>
+      }
     </Container>
   );
 }

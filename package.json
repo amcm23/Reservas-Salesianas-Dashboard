@@ -48,6 +48,7 @@
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.8.6",
+    "react-time-picker": "^3.9.0",
     "reactstrap": "^8.1.1",
     "simple-line-icons": "^2.4.1",
     "sweetalert2": "^9.3.1"

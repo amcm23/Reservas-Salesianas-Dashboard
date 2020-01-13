@@ -17,6 +17,18 @@ export default function ReservationForm(props) {
       hora: hour ? hour : reservation && reservation.HORA
     }
   });
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("auth"));
+    if (localStorage.getItem("auth") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      console.log("currentUser --> ", currentUser);
+      setCurrentUser(currentUser);
+    }
+  }, []);
 
   const onSubmit = data => {
     console.log(data);
@@ -33,7 +45,10 @@ export default function ReservationForm(props) {
         if (result.value) {
           editReservation(
             {
-              usuario: data.usuario,
+              usuario:
+                currentUser && currentUser.admin === "1"
+                  ? data.usuario
+                  : currentUser.id,
               espacio: data.espacio,
               fecha: data.fecha,
               hora: data.hora
@@ -65,7 +80,10 @@ export default function ReservationForm(props) {
         if (result.value) {
           createReservation(
             {
-              usuario: data.usuario,
+              usuario:
+                currentUser && currentUser.admin === "1"
+                  ? data.usuario
+                  : currentUser.id,
               espacio: data.espacio,
               fecha: data.fecha,
               hora: data.hora
@@ -90,21 +108,24 @@ export default function ReservationForm(props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Row>
-        <Col md={2}>
-          <Label>Usuario (*)</Label>
-        </Col>
-        <Col md={10}>
-          <select name="usuario" ref={register}>
-            {usuarios !== "No existen usuarios en la BBDD." &&
-              usuarios.map(usuario => {
-                return <option value={usuario.ID}>{usuario.NOMBRE}</option>;
-              })}
-          </select>
-          {errors.usuario && (
-            <span style={{ color: "red" }}>Campo obligatorio</span>
-          )}
-        </Col>
-
+        {currentUser && currentUser.admin === "1" && (
+          <React.Fragment>
+            <Col md={2}>
+              <Label>Usuario (*)</Label>
+            </Col>
+            <Col md={10}>
+              <select name="usuario" ref={register}>
+                {usuarios !== "No existen usuarios en la BBDD." &&
+                  usuarios.map(usuario => {
+                    return <option value={usuario.ID}>{usuario.NOMBRE}</option>;
+                  })}
+              </select>
+              {errors.usuario && (
+                <span style={{ color: "red" }}>Campo obligatorio</span>
+              )}
+            </Col>
+          </React.Fragment>
+        )}
         <Col md={2}>
           <Label>Espacio (*)</Label>
         </Col>
@@ -119,7 +140,6 @@ export default function ReservationForm(props) {
             <span style={{ color: "red" }}>Campo obligatorio</span>
           )}
         </Col>
-
         <Col md={2}>
           <Label>Fecha (*)</Label>
         </Col>
@@ -137,7 +157,6 @@ export default function ReservationForm(props) {
             <span style={{ color: "red" }}>Campo obligatorio</span>
           )}
         </Col>
-
         <Col md={2}>
           <Label>Hora (*)</Label>
         </Col>

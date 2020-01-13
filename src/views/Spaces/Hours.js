@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Container, Button, Badge, Alert } from "reactstrap";
-import AddSpaceModal from "./AddSpaceModal";
+import { Container, Button, Badge, Alert, Row, Col } from "reactstrap";
 import EditSpaceModal from "./EditSpaceModal";
 import TypesModal from "./TypesModal";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { fetchSpaces, deleteSpaces } from "../../actions/spaces";
+import { fetchHoursBySpaceId } from "../../actions/hours";
 import ReusableModal from "../../components/ReusableModal";
-import Hours from "./Hours";
+import AddHoursModal from "./AddHoursModal";
 
-export default function Spaces() {
-  const [spaces, setSpaces] = useState([{}]);
+export default function Hours(props) {
+  const [hours, setHours] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [spaceToEdit, setSpaceToEdit] = useState(null);
-  const [typesModal, setTypesModal] = useState(false);
-  const [hoursModal, setHoursModal] = useState(false);
-  const [currentSpace, setCurrentSpace] = useState(null);
 
   useEffect(() => {
-    fetchSpaces(res => setSpaces(res));
+    console.log("ESPACE ..>", props.space);
+    props.space && fetchHoursBySpaceId(props.space.ID, res => setHours(res));
   }, []);
 
   function handleDelete(id) {
@@ -50,7 +47,7 @@ export default function Spaces() {
   function handleEdit(space) {
     console.log("editing: ", space);
     setEditModal(true);
-    setSpaceToEdit(space);
+    //setSpaceToEdit(space);
   }
 
   function hideEdit() {
@@ -58,20 +55,13 @@ export default function Spaces() {
   }
 
   function handleHours(space) {
-    setHoursModal(true);
-    setCurrentSpace(space);
+    //setHoursModal(true);
+    //setCurrentSpace(space);
   }
 
   function optionsFormatter(cell, row) {
     return (
       <React.Fragment>
-        <Button
-          color="primary"
-          onClick={() => handleHours(row)}
-          style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
-        >
-          Ver horario
-        </Button>
         <Button
           color="secondary"
           style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
@@ -123,47 +113,72 @@ export default function Spaces() {
       >
         Añadir
       </Button>
-      <Button
-        onClick={() => setTypesModal(!typesModal)}
-        style={{ marginBottom: "1rem" }}
-        color="primary"
-      >
-        Tipos de espacios
-      </Button>
-      <AddSpaceModal
+      <AddHoursModal
         showAddModalProps={() => setAddModal(!addModal)}
         modal={addModal}
-        fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
+        //fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
       />
       <EditSpaceModal
         showAddModalProps={() => setEditModal(!editModal)}
         modal={editModal}
-        fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
+        // fetchSpaces={() => fetchSpaces(res => setSpaces(res))}
         hideModal={hideEdit}
-        space={spaceToEdit}
-      />
-      <TypesModal
-        showModal={() => setTypesModal(!typesModal)}
-        modal={typesModal}
-        fetchUsers={() => fetchSpaces(res => setSpaces(res))}
-        hideModal={() => setTypesModal(false)}
-      />
-      <ReusableModal
-        modal={hoursModal}
-        close={() => setHoursModal(false)}
-        content={<Hours space={currentSpace} />}
+        // space={spaceToEdit}
       />
 
-      {spaces === "No existen espacios en la BBDD." ? (
-        <Alert color="warning">No hay espacios todavía</Alert>
+      {hours === "No existen espacios/horarios en la BBDD con este ID." ? (
+        <Alert color="warning">No hay horarios todavía</Alert>
       ) : (
-        <BootstrapTable
-          keyField="id"
-          data={spaces}
-          columns={columns}
-          responsive
-          stripped={true}
-        />
+        <Row>
+          <Col>
+            <div>LUNES</div>
+            {hours.map(hour => {
+              return hour.DIA === "1" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>MARTES</div>
+            {hours.map(hour => {
+              return hour.DIA === "2" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>MIERCOLES</div>
+            {hours.map(hour => {
+              return hour.DIA === "3" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>JUEVES</div>
+            {hours.map(hour => {
+              return hour.DIA === "4" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>VIERNES</div>
+            {hours.map(hour => {
+              return hour.DIA === "5" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>SÁBADO</div>
+            {hours.map(hour => {
+              return hour.DIA === "6" && <div>{hour.HORA}</div>;
+            })}
+          </Col>
+          <Col>
+            <div>DOMINGO</div>
+            {hours.map(hour => {
+              return (
+                hour.DIA === "7" && (
+                  <div>
+                    {hour.DIA} - {hour.HORA}
+                  </div>
+                )
+              );
+            })}
+          </Col>
+        </Row>
       )}
     </Container>
   );
