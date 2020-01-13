@@ -121,16 +121,20 @@ function Dashboard(props) {
   const EventDetail = ({ event, el }) => {
     const content = <div>{event.title}</div>;
     ReactDOM.render(content, el);
-    console.log("EL DAY --> ", moment(event.start).format("DD-MM-YYYY"));
-    if (
-      moment.utc(event.start).format("DD-MM-YYYY-hh:mm:ss") ===
-      "13-01-2020-9:00:00"
-    ) {
+    const exists = reservationsEvents.some(
+      v =>
+        moment.utc(v.start).format("DD-MM-YYYY-HH:mm:ss") ===
+        moment.utc(event.start).format("DD-MM-YYYY-HH:mm:ss")
+    );
+    console.log(
+      moment.utc(event.start).format("DD-MM-YYYY-HH:mm:ss") + "EXISTS ---> ",
+      exists,
+      event
+    );
+    if (exists && !event.extendedProps.usuario) {
       return false;
-      console.log("DEBERIA SER FALSO COÑO LA AMDRE");
     } else {
       return el;
-      console.log("No coincide el dia");
     }
   };
 

@@ -171,6 +171,7 @@ export default function Users() {
         data={users}
         columns={columns}
         responsive
+        reflow
         striped={true}
         style={{
           overflow: "auto",
