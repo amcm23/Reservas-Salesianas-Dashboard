@@ -9,7 +9,6 @@ import { fetchHoursBySpaceId } from "../../actions/hours";
 import { fetchSpaces } from "../../actions/spaces";
 import AddReservationModal from "../Reservations/AddReservationModal";
 import Swal from "sweetalert2";
-import { checkAuth } from "../../actions/auth";
 import { fetchReservationsFromSpace } from "../../actions/reservations";
 import ReactDOM from "react-dom";
 
@@ -20,6 +19,11 @@ moment.locale("es", {
     doy: 1
   }
 });
+
+/*useEffect(() => {
+  console.log(position.coords.latitude, 
+    position.coords.longitude)
+}, [input])*/
 
 function Dashboard(props) {
   const [currentUser, setCurrentUser] = useState();
@@ -92,7 +96,9 @@ function Dashboard(props) {
         border: "100px",
         daysOfWeek: [hours[i].DIA],
         size: 100,
-        allDay: false
+        allDay: false,
+        //startRecur: moment().format("YYYY-MM-DDTHH:mm:ssZ"),
+        endRecur: moment("02-21-2020").format("YYYY-MM-DDTHH:mm:ssZ")
       };
     }
   }

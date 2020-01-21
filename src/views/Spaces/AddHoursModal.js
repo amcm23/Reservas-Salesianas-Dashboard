@@ -11,7 +11,7 @@ function AddHoursModal(props) {
   }
 
   return (
-    <Modal isOpen={modal} toggle={showModal} size="md">
+    <Modal isOpen={modal} toggle={showModal} size="lg">
       <ModalHeader toggle={showModal}>Añadir Horario</ModalHeader>
       <ModalBody>
         <HoursForm
