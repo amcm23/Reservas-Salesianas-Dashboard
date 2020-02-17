@@ -226,7 +226,6 @@ function Dashboard(props) {
           }}
         />
       </React.Fragment>
-      }
     </Container>
   );
 }

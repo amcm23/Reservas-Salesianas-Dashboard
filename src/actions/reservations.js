@@ -32,6 +32,18 @@ export function editReservation(data, id, done = () => {}) {
   });
 }
 
+export function createHistoric(data, done = () => {}) {
+  axios({
+    method: "post",
+    url: `https://florente.salesianas.es/historicos`,
+    data: data
+  }).then(res => {
+    console.log(res);
+    console.log(res.data);
+    done();
+  });
+}
+
 export function createReservation(data, done = () => {}) {
   axios({
     method: "post",

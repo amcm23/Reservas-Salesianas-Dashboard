@@ -193,394 +193,824 @@ export default function HoursForm(props) {
       </div>
       {sameHour === "0" && (
         <React.Fragment>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
             <Col>
-              <input
+              {/*<input
                 name="monday"
                 type="checkbox"
                 checked={lunes}
                 onChange={() => setLunes(!lunes)}
-              />{" "}
+              />{" "}*/}
               Lunes
             </Col>
             {lunes ? (
-              <Col>Deshabilitado</Col>
+              <React.Fragment>
+                <Col>Deshabilitado</Col>
+                <Col>
+                  <Button onClick={() => setLunes(false)}>Incluir</Button>
+                </Col>
+              </React.Fragment>
             ) : (
               <React.Fragment>
                 <Col>
-                  Hora min:
-                  <select
-                    name="lmin"
-                    ref={register({ required: true })}
-                    disabled={lunes}
-                    style={{ marginLeft: 5 }}
-                  >
-                    {hoursOptions.map(hour => {
-                      return <option value={hour}>{hour}</option>;
-                    })}
-                  </select>
-                  {errors.lmin && (
-                    <p style={{ color: "red" }}>{errors.lmin.message}</p>
-                  )}
+                  Horario Mañana
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="lminm"
+                        ref={register({ required: true })}
+                        disabled={lunes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.lminm && (
+                        <p style={{ color: "red" }}>{errors.lminm.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="lmaxm"
+                        ref={register({ required: true })}
+                        disabled={lunes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.lmaxm && (
+                        <p style={{ color: "red" }}>{errors.lmaxm.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  Horario Tarde
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="lmint"
+                        ref={register({ required: true })}
+                        disabled={lunes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.lmint && (
+                        <p style={{ color: "red" }}>{errors.lmint.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="lmaxt"
+                        ref={register({ required: true })}
+                        disabled={lunes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.lmaxt && (
+                        <p style={{ color: "red" }}>{errors.lmaxt.message}</p>
+                      )}
+                    </Col>
+                  </Row>
                 </Col>
                 <Col>
-                  Hora máx:
-                  <select
-                    name="lmax"
-                    ref={register({ required: true })}
-                    disabled={lunes}
-                    style={{ marginLeft: 5 }}
-                  >
-                    {hoursOptions.map(hour => {
-                      return <option value={hour}>{hour}</option>;
-                    })}
-                  </select>
-                  {errors.lmax && (
-                    <p style={{ color: "red" }}>{errors.lmax.message}</p>
-                  )}
+                  <Button onClick={() => setLunes(true)}>Excluir</Button>
                 </Col>
               </React.Fragment>
             )}
           </Row>
-          <Row>
+          <Row style={{ padding: 10 }}>
             <Col>
-              <input
+              {/*<input
                 type="checkbox"
                 checked={martes}
                 onChange={() => setMartes(!martes)}
-              />
+              />*/}
               Martes
             </Col>
             {martes ? (
-              <Col>Deshabilitado</Col>
+              <React.Fragment>
+                <Col>Deshabilitado</Col>
+                <Col>
+                  <Button onClick={() => setMartes(false)}>Incluir</Button>
+                </Col>
+              </React.Fragment>
             ) : (
               <React.Fragment>
                 <Col>
-                  Hora min:
-                  <select
-                    name="mmin"
-                    ref={register({ required: true })}
-                    disabled={martes}
-                    style={{ marginLeft: 5 }}
-                  >
-                    {hoursOptions.map(hour => {
-                      return <option value={hour}>{hour}</option>;
-                    })}
-                  </select>
-                  {errors.mmin && (
-                    <p style={{ color: "red" }}>{errors.mmin.message}</p>
-                  )}
+                  Horario Mañana
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="mminm"
+                        ref={register({ required: true })}
+                        disabled={martes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.mminm && (
+                        <p style={{ color: "red" }}>{errors.mminm.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="mmaxm"
+                        ref={register({ required: true })}
+                        disabled={martes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.mmaxm && (
+                        <p style={{ color: "red" }}>{errors.mmaxm.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  Horario Tarde
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="mmint"
+                        ref={register({ required: true })}
+                        disabled={martes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.mmint && (
+                        <p style={{ color: "red" }}>{errors.mmint.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="mmaxt"
+                        ref={register({ required: true })}
+                        disabled={martes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.mmaxt && (
+                        <p style={{ color: "red" }}>{errors.mmaxt.message}</p>
+                      )}
+                    </Col>
+                  </Row>
                 </Col>
                 <Col>
-                  Hora máx:
-                  <select
-                    name="mmax"
-                    ref={register({ required: true })}
-                    style={{ marginLeft: 5 }}
-                    disabled={martes}
-                  >
-                    {hoursOptions.map(hour => {
-                      return <option value={hour}>{hour}</option>;
-                    })}
-                  </select>
-                  {errors.mmax && (
-                    <p style={{ color: "red" }}>{errors.mmax.message}</p>
-                  )}
+                  <Button onClick={() => setMartes(true)}>Excluir</Button>
                 </Col>
               </React.Fragment>
             )}
           </Row>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
-            <Col>
-              <input
-                type="checkbox"
-                checked={miercoles}
-                onChange={() => setMiercoles(!miercoles)}
-              />
-              Miércoles
-            </Col>
-            <Col>
-              Hora min:
-              <select
-                name="xmin"
-                ref={register({ required: true })}
-                disabled={miercoles}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.xmin && (
-                <p style={{ color: "red" }}>{errors.xmin.message}</p>
-              )}
-            </Col>
-            <Col>
-              Hora máx:
-              <select
-                name="xmax"
-                ref={register({ required: true })}
-                disabled={miercoles}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.xmax && (
-                <p style={{ color: "red" }}>{errors.xmax.message}</p>
-              )}
-            </Col>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
+            <Col>Miércoles</Col>
+            {miercoles ? (
+              <React.Fragment>
+                <Col>Deshabilitado</Col>
+                <Col>
+                  <Button onClick={() => setMiercoles(false)}>Incluir</Button>
+                </Col>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Col>
+                  Horario Mañana
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="xminm"
+                        ref={register({ required: true })}
+                        disabled={miercoles}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.xminm && (
+                        <p style={{ color: "red" }}>{errors.xminm.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="xmaxm"
+                        ref={register({ required: true })}
+                        disabled={miercoles}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.xmaxm && (
+                        <p style={{ color: "red" }}>{errors.xmaxm.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  Horario Tarde
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="xmint"
+                        ref={register({ required: true })}
+                        disabled={miercoles}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.xmint && (
+                        <p style={{ color: "red" }}>{errors.xmint.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="xmaxt"
+                        ref={register({ required: true })}
+                        disabled={miercoles}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.xmaxt && (
+                        <p style={{ color: "red" }}>{errors.xmaxt.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Button onClick={() => setMiercoles(true)}>Excluir</Button>
+                </Col>
+              </React.Fragment>
+            )}
           </Row>
-          <Row>
-            <Col>
-              <input
-                type="checkbox"
-                checked={jueves}
-                onChange={() => setJueves(!jueves)}
-              />
-              Jueves
-            </Col>
-            <Col>
-              Hora min:
-              <select
-                name="jmin"
-                ref={register({ required: true })}
-                disabled={jueves}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.jmin && (
-                <p style={{ color: "red" }}>{errors.jmin.message}</p>
-              )}
-            </Col>
-            <Col>
-              Hora máx:
-              <select
-                name="jmax"
-                ref={register({ required: true })}
-                disabled={jueves}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.jmax && (
-                <p style={{ color: "red" }}>{errors.jmax.message}</p>
-              )}
-            </Col>
+          <Row style={{ padding: 10 }}>
+            <Col>Jueves</Col>
+            {jueves ? (
+              <React.Fragment>
+                <Col>Deshabilitado</Col>
+                <Col>
+                  <Button onClick={() => setJueves(false)}>Incluir</Button>
+                </Col>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Col>
+                  Horario Mañana
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="jminm"
+                        ref={register({ required: true })}
+                        disabled={jueves}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.jminm && (
+                        <p style={{ color: "red" }}>{errors.jminm.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="jmaxm"
+                        ref={register({ required: true })}
+                        disabled={jueves}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.jmaxm && (
+                        <p style={{ color: "red" }}>{errors.jmaxm.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  Horario Tarde
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="jmint"
+                        ref={register({ required: true })}
+                        disabled={jueves}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.jmint && (
+                        <p style={{ color: "red" }}>{errors.jmint.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="jmaxt"
+                        ref={register({ required: true })}
+                        disabled={jueves}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.jmaxt && (
+                        <p style={{ color: "red" }}>{errors.jmaxt.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Button onClick={() => setJueves(true)}>Excluir</Button>
+                </Col>
+              </React.Fragment>
+            )}
           </Row>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
-            <Col>
-              <input
-                type="checkbox"
-                checked={viernes}
-                onChange={() => setViernes(!viernes)}
-              />
-              Viernes
-            </Col>
-            <Col>
-              Hora min:
-              <select
-                name="vmin"
-                ref={register({ required: true })}
-                disabled={viernes}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.vmin && (
-                <p style={{ color: "red" }}>{errors.vmin.message}</p>
-              )}
-            </Col>
-            <Col>
-              Hora máx:
-              <select
-                name="vmax"
-                ref={register({ required: true })}
-                disabled={viernes}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.vmax && (
-                <p style={{ color: "red" }}>{errors.vmax.message}</p>
-              )}
-            </Col>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
+            <Col>Viernes</Col>
+            {martes ? (
+              <React.Fragment>
+                <Col>Deshabilitado</Col>
+                <Col>
+                  <Button onClick={() => setViernes(false)}>Incluir</Button>
+                </Col>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Col>
+                  Horario Mañana
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="vminm"
+                        ref={register({ required: true })}
+                        disabled={viernes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.vminm && (
+                        <p style={{ color: "red" }}>{errors.vminm.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="vmaxm"
+                        ref={register({ required: true })}
+                        disabled={viernes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.vmaxm && (
+                        <p style={{ color: "red" }}>{errors.vmaxm.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  Horario Tarde
+                  <Row>
+                    <Col>
+                      Hora min:
+                      <select
+                        name="vmint"
+                        ref={register({ required: true })}
+                        disabled={viernes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.vmint && (
+                        <p style={{ color: "red" }}>{errors.vmint.message}</p>
+                      )}
+                    </Col>
+                    <Col>
+                      Hora máx:
+                      <select
+                        name="vmaxt"
+                        ref={register({ required: true })}
+                        disabled={viernes}
+                        style={{ marginLeft: 5 }}
+                      >
+                        {hoursOptions.map(hour => {
+                          return <option value={hour}>{hour}</option>;
+                        })}
+                      </select>
+                      {errors.vmaxt && (
+                        <p style={{ color: "red" }}>{errors.vmaxt.message}</p>
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col>
+                  <Button onClick={() => setViernes(true)}>Excluir</Button>
+                </Col>
+              </React.Fragment>
+            )}
           </Row>
         </React.Fragment>
       )}
 
       {sameHour === "1" && (
         <React.Fragment>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
             <Col>
               <div>Lunes a Viernes</div>
             </Col>
             <Col>
-              Hora min:
-              <select
-                name="lvmin"
-                ref={register({ required: true })}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.lvmin && (
-                <p style={{ color: "red" }}>{errors.lvmin.message}</p>
-              )}
+              Horario Mañana
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="lvminm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.lvminm && (
+                    <p style={{ color: "red" }}>{errors.lvminm.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="lvmaxm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.lvmaxm && (
+                    <p style={{ color: "red" }}>{errors.lvmaxm.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
+
             <Col>
-              Hora máx:
-              <select
-                name="lvmax"
-                ref={register({ required: true })}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.lvmax && (
-                <p style={{ color: "red" }}>{errors.lvmax.message}</p>
-              )}
+              Horario Tarde
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="lvmint"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.lvmint && (
+                    <p style={{ color: "red" }}>{errors.lvmint.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="lvmaxt"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.lvmaxt && (
+                    <p style={{ color: "red" }}>{errors.lvmaxt.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
           </Row>
         </React.Fragment>
       )}
       {sameHour === "2" && (
         <React.Fragment>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
             <Col>
               <div>Lunes a Domingo</div>
             </Col>
             <Col>
-              Hora min:
-              <select
-                name="ldmin"
-                ref={register({ required: true })}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.ldmin && (
-                <p style={{ color: "red" }}>{errors.ldmin.message}</p>
-              )}
+              Horario Mañana
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="ldminm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.ldminm && (
+                    <p style={{ color: "red" }}>{errors.ldminm.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="ldmaxm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.ldmaxm && (
+                    <p style={{ color: "red" }}>{errors.ldmaxm.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
+
             <Col>
-              Hora máx:
-              <select
-                name="ldmax"
-                ref={register({ required: true })}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.ldmax && (
-                <p style={{ color: "red" }}>{errors.ldmax.message}</p>
-              )}
+              Horario Tarde
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="ldmint"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.ldmint && (
+                    <p style={{ color: "red" }}>{errors.ldmint.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="ldmaxt"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.ldmaxt && (
+                    <p style={{ color: "red" }}>{errors.ldmaxt.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
           </Row>
         </React.Fragment>
       )}
-      {sameHour !== "2" && (
+      {sameHour !== "2" && sabado ? (
         <React.Fragment>
-          <Row>
+          <Col>Deshabilitado</Col>
+          <Col>
+            <Button onClick={() => setMartes(false)}>Incluir</Button>
+          </Col>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Row style={{ padding: 10 }}>
+            <Col>Sábado</Col>
             <Col>
-              <input
-                type="checkbox"
-                checked={sabado}
-                onChange={() => setSabado(!sabado)}
-              />
-              Sábado
+              Horario Mañana
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="sminm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.sminm && (
+                    <p style={{ color: "red" }}>{errors.sminm.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="smaxm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.smaxm && (
+                    <p style={{ color: "red" }}>{errors.smaxm.message}</p>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+
+            <Col>
+              Horario Tarde
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="smint"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.smint && (
+                    <p style={{ color: "red" }}>{errors.smint.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="smaxt"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.smaxt && (
+                    <p style={{ color: "red" }}>{errors.smaxt.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
             <Col>
-              Hora min:
-              <select
-                name="smin"
-                ref={register({ required: true })}
-                disabled={sabado}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.smin && (
-                <p style={{ color: "red" }}>{errors.smin.message}</p>
-              )}
-            </Col>
-            <Col>
-              Hora máx:
-              <select
-                name="smax"
-                ref={register({ required: true })}
-                disabled={sabado}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.smax && (
-                <p style={{ color: "red" }}>{errors.smax.message}</p>
-              )}
+              <Button onClick={() => setSabado(true)}>Excluir</Button>
             </Col>
           </Row>
-          <Row style={{ backgroundColor: "#f0f0f0" }}>
+        </React.Fragment>
+      )}
+
+      {sameHour !== "2" && domingo ? (
+        <React.Fragment>
+          <Col>Deshabilitado</Col>
+          <Col>
+            <Button onClick={() => setMartes(false)}>Incluir</Button>
+          </Col>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Row style={{ backgroundColor: "#f0f0f0", padding: 10 }}>
             <Col>
-              <input
+              {/*<input
                 type="checkbox"
                 checked={domingo}
                 onChange={() => setDomingo(!domingo)}
-              />
+              />*/}
               Domingo
             </Col>
             <Col>
-              Hora min:
-              <select
-                name="dmin"
-                ref={register({ required: true })}
-                disabled={domingo}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.dmin && (
-                <p style={{ color: "red" }}>{errors.dmin.message}</p>
-              )}
+              Horario Mañana
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="dminm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.dminm && (
+                    <p style={{ color: "red" }}>{errors.dminm.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="dmaxm"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.dmaxm && (
+                    <p style={{ color: "red" }}>{errors.dmaxm.message}</p>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+
+            <Col>
+              Horario Tarde
+              <Row>
+                <Col>
+                  Hora min:
+                  <select
+                    name="dmint"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.dmint && (
+                    <p style={{ color: "red" }}>{errors.dmint.message}</p>
+                  )}
+                </Col>
+                <Col>
+                  Hora máx:
+                  <select
+                    name="dmaxt"
+                    ref={register({ required: true })}
+                    style={{ marginLeft: 5 }}
+                  >
+                    {hoursOptions.map(hour => {
+                      return <option value={hour}>{hour}</option>;
+                    })}
+                  </select>
+                  {errors.dmaxt && (
+                    <p style={{ color: "red" }}>{errors.dmaxt.message}</p>
+                  )}
+                </Col>
+              </Row>
             </Col>
             <Col>
-              Hora máx:
-              <select
-                name="dmax"
-                ref={register({ required: true })}
-                disabled={domingo}
-                style={{ marginLeft: 5 }}
-              >
-                {hoursOptions.map(hour => {
-                  return <option value={hour}>{hour}</option>;
-                })}
-              </select>
-              {errors.dmax && (
-                <p style={{ color: "red" }}>{errors.dmax.message}</p>
-              )}
+              <Button onClick={() => setMartes(true)}>Excluir</Button>
             </Col>
           </Row>
         </React.Fragment>

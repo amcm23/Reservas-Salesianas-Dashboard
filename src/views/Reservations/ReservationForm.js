@@ -3,7 +3,11 @@ import useForm from "react-hook-form";
 import { Row, Col, Button, Label } from "reactstrap";
 import Swal from "sweetalert2";
 import moment from "moment";
-import { createReservation, editReservation } from "../../actions/reservations";
+import {
+  createReservation,
+  editReservation,
+  createHistoric
+} from "../../actions/reservations";
 
 export default function ReservationForm(props) {
   const { usuarios, espacios, reservation, hour, day, space } = props;
@@ -89,6 +93,15 @@ export default function ReservationForm(props) {
               hora: data.hora
             },
             () => {
+              createHistoric({
+                usuario:
+                  currentUser && currentUser.admin === "1"
+                    ? data.usuario
+                    : currentUser.id,
+                espacio: data.espacio,
+                fecha: data.fecha,
+                hora: data.hora
+              });
               props.fetchReservations();
               props.showModal();
               Swal.fire({

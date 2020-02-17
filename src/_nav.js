@@ -29,6 +29,11 @@ export default {
       name: "Reservas",
       url: "/reservations",
       icon: "icon-pencil"
+    },
+    {
+      name: "Historial",
+      url: "/history",
+      icon: "icon-pencil"
     }
   ]
 };

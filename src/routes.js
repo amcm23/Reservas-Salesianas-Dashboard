@@ -7,6 +7,7 @@ const Spaces = React.lazy(() => import("./views/Spaces/Spaces"));
 const Reservations = React.lazy(() =>
   import("./views/Reservations/Reservations")
 );
+const History = React.lazy(() => import("./views/History/History"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -20,6 +21,12 @@ const routes = [
     exact: true,
     name: "Reservations",
     component: Reservations
+  },
+  {
+    path: "/history",
+    exact: true,
+    name: "Historial",
+    component: History
   }
 ];
 
