@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Container, Button, Alert } from "reactstrap";
+import { Container, Button, Alert, Card, CardHeader } from "reactstrap";
 import AddReservationModal from "./AddReservationModal";
 import EditReservationModal from "./EditReservationModal";
 import axios from "axios";
@@ -149,22 +149,25 @@ export default function Spaces(props) {
         reservation={reservationToEdit}
       />
 
-      {reservations === "No existen reservas en la BBDD." ? (
-        <Alert color="warning">No hay reservas todavía</Alert>
-      ) : (
-        <BootstrapTable
-          keyField="id"
-          data={reservations}
-          columns={columns}
-          responsive
-          striped={true}
-          style={{
-            overflow: "auto",
-            display: "block",
-            tableLayout: "auto"
-          }}
-        />
-      )}
+      <Card>
+        <CardHeader>Reservas</CardHeader>
+        {reservations === "No existen reservas en la BBDD." ? (
+          <Alert color="warning">No hay reservas todavía</Alert>
+        ) : (
+          <BootstrapTable
+            keyField="id"
+            data={reservations}
+            columns={columns}
+            responsive
+            striped={true}
+            style={{
+              overflow: "auto",
+              display: "block",
+              tableLayout: "auto"
+            }}
+          />
+        )}
+      </Card>
     </Container>
   );
 }

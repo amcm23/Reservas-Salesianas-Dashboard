@@ -45,7 +45,6 @@ class DefaultLayout extends Component {
     );
     if (localStorage.getItem("auth") === null) {
       console.log("UNAUTH");
-      this.props.history.push("/login");
     } else {
       this.setState({
         currentUser: JSON.parse(localStorage.getItem("currentUser"))
@@ -65,27 +64,28 @@ class DefaultLayout extends Component {
       <div className="app">
         <AppHeader fixed>
           <Suspense fallback={this.loading()}>
-            <DefaultHeader onLogout={e => this.signOut(e)} />
+            <DefaultHeader
+              onLogout={e => this.signOut(e)}
+              history={this.props.history}
+            />
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed display="lg">
-            <AppSidebarHeader />
-            <AppSidebarForm />
-            <Suspense>
-              <AppSidebarNav
-                navConfig={
-                  this.state.currentUser && this.state.currentUser.admin === "1"
-                    ? navigation
-                    : userNavigation
-                }
-                {...this.props}
-                router={router}
-              />
-            </Suspense>
-            <AppSidebarFooter />
-            <AppSidebarMinimizer />
-          </AppSidebar>
+          {this.state.currentUser && this.state.currentUser.admin === "1" ? (
+            <AppSidebar fixed display="lg">
+              <AppSidebarHeader />
+              <AppSidebarForm />
+              <Suspense>
+                <AppSidebarNav
+                  navConfig={navigation}
+                  {...this.props}
+                  router={router}
+                />
+              </Suspense>
+              <AppSidebarFooter />
+              <AppSidebarMinimizer />
+            </AppSidebar>
+          ) : null}
           <main className="main">
             <AppBreadcrumb appRoutes={routes} router={router} />
             <Container fluid>

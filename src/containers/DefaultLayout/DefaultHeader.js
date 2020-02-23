@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   Badge,
@@ -7,7 +7,8 @@ import {
   DropdownMenu,
   DropdownToggle,
   Nav,
-  NavItem
+  NavItem,
+  Button
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -26,25 +27,33 @@ const propTypes = {
 
 const defaultProps = {};
 
-class DefaultHeader extends Component {
-  render() {
-    // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+function DefaultHeader(props) {
+  // eslint-disable-next-line
+  const { children, ...attributes } = props;
+  const [currentUser, setCurrentUser] = useState();
 
-    return (
-      <React.Fragment>
+  useEffect(() => {
+    setCurrentUser(JSON.parse(localStorage.getItem("currentUser")));
+  }, []);
+
+  return (
+    <React.Fragment>
+      {currentUser && currentUser.admin === "1" && (
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{ src: logo, width: 50, height: 50, alt: "CoreUI Logo" }}
-          minimized={{ src: logo, width: 30, height: 30, alt: "CoreUI Logo" }}
-        />
+      )}
+      <AppNavbarBrand
+        full={{ src: logo, width: 50, height: 50, alt: "CoreUI Logo" }}
+        minimized={{ src: logo, width: 30, height: 30, alt: "CoreUI Logo" }}
+      />
+      {currentUser && currentUser.admin === "1" && (
         <AppSidebarToggler className="d-md-down-none" display="lg" />
+      )}
 
-        <Nav className="ml-auto" navbar>
+      <Nav className="ml-auto" navbar>
+        {currentUser ? (
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: 20 }}>
-              {JSON.parse(localStorage.getItem("currentUser")).email}{" "}
-              <IoIosArrowDown />
+              {currentUser && currentUser.email} <IoIosArrowDown />
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center">
@@ -53,15 +62,19 @@ class DefaultHeader extends Component {
               <DropdownItem>
                 <i className="fa fa-user"></i> Perfil
               </DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}>
+              <DropdownItem onClick={e => props.onLogout(e)}>
                 <i className="fa fa-lock"></i> Cerrar sesión
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-        </Nav>
-      </React.Fragment>
-    );
-  }
+        ) : (
+          <Button onClick={() => props.history.push("/login")}>
+            Iniciar sesión
+          </Button>
+        )}
+      </Nav>
+    </React.Fragment>
+  );
 }
 
 DefaultHeader.propTypes = propTypes;

@@ -11,15 +11,20 @@ const History = React.lazy(() => import("./views/History/History"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
-  { path: "/", exact: true, name: "Home" },
-  { path: "/dashboard", name: "Dashboard", component: Dashboard },
-  { path: "/users", exact: true, name: "Users", component: Users },
-  { path: "/users/:id", exact: true, name: "User Details", component: User },
-  { path: "/spaces", exact: true, name: "Spaces", component: Spaces },
+  { path: "/", exact: true, name: "Inicio" },
+  { path: "/dashboard", name: "Calendario", component: Dashboard },
+  { path: "/users", exact: true, name: "Usuarios", component: Users },
+  {
+    path: "/users/:id",
+    exact: true,
+    name: "Detalles Usuario",
+    component: User
+  },
+  { path: "/spaces", exact: true, name: "Espacios", component: Spaces },
   {
     path: "/reservations",
     exact: true,
-    name: "Reservations",
+    name: "Reservas",
     component: Reservations
   },
   {
