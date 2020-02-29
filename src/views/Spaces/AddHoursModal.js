@@ -17,6 +17,7 @@ function AddHoursModal(props) {
         <HoursForm
           fetchHours={() => props.fetchHours()}
           showModal={showModal}
+          space={props.space.ID}
         />
       </ModalBody>
       <ModalFooter>

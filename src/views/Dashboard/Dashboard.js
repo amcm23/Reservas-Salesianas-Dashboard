@@ -95,9 +95,9 @@ function Dashboard(props) {
         border: "100px",
         daysOfWeek: [hours[i].DIA],
         size: 100,
-        allDay: false,
+        allDay: false
         //startRecur: moment().format("YYYY-MM-DDTHH:mm:ssZ"),
-        endRecur: moment("02-21-2020").format("YYYY-MM-DDTHH:mm:ssZ")
+        // endRecur: moment("02-21-2020").format("YYYY-MM-DDTHH:mm:ssZ")
       };
     }
   }
