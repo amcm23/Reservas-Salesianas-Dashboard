@@ -288,26 +288,48 @@ export default function Hours(props) {
                   return (
                     hour.DIA === "2" && (
                       <Card
-                        style={
-                          hour.DISPONIBLE === "1"
-                            ? {
-                                backgroundColor: "rgba(0,0,0,0)",
-                                margin: 5,
-                                border: 1,
-                                borderColor: "",
-                                textAlign: "center"
-                              }
-                            : {
-                                backgroundColor: "#d9dbda",
-                                margin: 5,
-                                border: 1,
-                                borderColor: "gray",
-                                textAlign: "center"
-                              }
-                        }
+                      style={
+                        hour.DISPONIBLE === "1"
+                          ? {
+                              backgroundColor: "rgba(0,0,0,0)",
+                              margin: 5,
+                              border: 1,
+                              borderColor: "",
+                              textAlign: "center"
+                            }
+                          : {
+                              backgroundColor: "#d9dbda",
+                              margin: 5,
+                              border: 1,
+                              borderColor: "gray",
+                              textAlign: "center"
+                            }
+                      }
+                    >
+                      <div
+                        style={{
+                          flex: 1,
+                          alignContent: "center",
+                          alignItems: "center"
+                        }}
                       >
+                        {" "}
                         {hour.HORA}
-                      </Card>
+                        <Button
+                          style={{
+                            backgroundColor: "rgba(0,0,0,0)",
+                            border: 0
+                          }}
+                          onClick={() => handleHour(hour)}
+                        >
+                          {hour.DISPONIBLE === "1" ? (
+                            <MdCheckBox />
+                          ) : (
+                            <MdCheckBoxOutlineBlank />
+                          )}
+                        </Button>
+                      </div>
+                    </Card>
                     )
                   );
                 })}
@@ -348,7 +370,29 @@ export default function Hours(props) {
                               }
                         }
                       >
-                        {hour.HORA}
+                        <div
+                          style={{
+                            flex: 1,
+                            alignContent: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          {" "}
+                          {hour.HORA}
+                          <Button
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0)",
+                              border: 0
+                            }}
+                            onClick={() => handleHour(hour)}
+                          >
+                            {hour.DISPONIBLE === "1" ? (
+                              <MdCheckBox />
+                            ) : (
+                              <MdCheckBoxOutlineBlank />
+                            )}
+                          </Button>
+                        </div>
                       </Card>
                     )
                   );
@@ -390,7 +434,29 @@ export default function Hours(props) {
                               }
                         }
                       >
-                        {hour.HORA}
+                        <div
+                          style={{
+                            flex: 1,
+                            alignContent: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          {" "}
+                          {hour.HORA}
+                          <Button
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0)",
+                              border: 0
+                            }}
+                            onClick={() => handleHour(hour)}
+                          >
+                            {hour.DISPONIBLE === "1" ? (
+                              <MdCheckBox />
+                            ) : (
+                              <MdCheckBoxOutlineBlank />
+                            )}
+                          </Button>
+                        </div>
                       </Card>
                     )
                   );
@@ -414,26 +480,48 @@ export default function Hours(props) {
                   return (
                     hour.DIA === "5" && (
                       <Card
-                        style={
-                          hour.DISPONIBLE === "1"
-                            ? {
-                                backgroundColor: "rgba(0,0,0,0)",
-                                margin: 5,
-                                border: 1,
-                                borderColor: "",
-                                textAlign: "center"
-                              }
-                            : {
-                                backgroundColor: "#d9dbda",
-                                margin: 5,
-                                border: 1,
-                                borderColor: "gray",
-                                textAlign: "center"
-                              }
-                        }
+                      style={
+                        hour.DISPONIBLE === "1"
+                          ? {
+                              backgroundColor: "rgba(0,0,0,0)",
+                              margin: 5,
+                              border: 1,
+                              borderColor: "",
+                              textAlign: "center"
+                            }
+                          : {
+                              backgroundColor: "#d9dbda",
+                              margin: 5,
+                              border: 1,
+                              borderColor: "gray",
+                              textAlign: "center"
+                            }
+                      }
+                    >
+                      <div
+                        style={{
+                          flex: 1,
+                          alignContent: "center",
+                          alignItems: "center"
+                        }}
                       >
+                        {" "}
                         {hour.HORA}
-                      </Card>
+                        <Button
+                          style={{
+                            backgroundColor: "rgba(0,0,0,0)",
+                            border: 0
+                          }}
+                          onClick={() => handleHour(hour)}
+                        >
+                          {hour.DISPONIBLE === "1" ? (
+                            <MdCheckBox />
+                          ) : (
+                            <MdCheckBoxOutlineBlank />
+                          )}
+                        </Button>
+                      </div>
+                    </Card>
                     )
                   );
                 })}
@@ -474,7 +562,29 @@ export default function Hours(props) {
                               }
                         }
                       >
-                        {hour.HORA}
+                        <div
+                          style={{
+                            flex: 1,
+                            alignContent: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          {" "}
+                          {hour.HORA}
+                          <Button
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0)",
+                              border: 0
+                            }}
+                            onClick={() => handleHour(hour)}
+                          >
+                            {hour.DISPONIBLE === "1" ? (
+                              <MdCheckBox />
+                            ) : (
+                              <MdCheckBoxOutlineBlank />
+                            )}
+                          </Button>
+                        </div>
                       </Card>
                     )
                   );
@@ -516,7 +626,29 @@ export default function Hours(props) {
                               }
                         }
                       >
-                        {hour.HORA}
+                        <div
+                          style={{
+                            flex: 1,
+                            alignContent: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          {" "}
+                          {hour.HORA}
+                          <Button
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0)",
+                              border: 0
+                            }}
+                            onClick={() => handleHour(hour)}
+                          >
+                            {hour.DISPONIBLE === "1" ? (
+                              <MdCheckBox />
+                            ) : (
+                              <MdCheckBoxOutlineBlank />
+                            )}
+                          </Button>
+                        </div>
                       </Card>
                     )
                   );

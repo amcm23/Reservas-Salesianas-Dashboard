@@ -354,11 +354,11 @@ export default function HoursForm(props) {
                     Excluir día completo
                   </Button>
                 </Col>
-                <Col>
+               {/* {/*<Col>
                   <Button onClick={() => handleExcludeHours("lunes")}>
                     Horas Excluidas
                   </Button>
-                </Col>
+               </Col>*/}
               </React.Fragment>
             )}
           </Row>
@@ -426,11 +426,11 @@ export default function HoursForm(props) {
                     Excluir día completo
                   </Button>
                 </Col>
-                <Col>
+                {/*{/*<Col>
                   <Button onClick={() => handleExcludeHours("martes")}>
                     Horas Excluidas
                   </Button>
-                </Col>
+                </Col>*/}
               </React.Fragment>
             )}
           </Row>
@@ -491,11 +491,11 @@ export default function HoursForm(props) {
                     Excluir día completo
                   </Button>
                 </Col>
-                <Col>
+                {/*<Col>
                   <Button onClick={() => handleExcludeHours("miercoles")}>
                     Horas Excluidas
                   </Button>
-                </Col>
+                </Col>*/}
               </React.Fragment>
             )}
           </Row>
@@ -556,11 +556,11 @@ export default function HoursForm(props) {
                     Excluir día completo
                   </Button>
                 </Col>
-                <Col>
+                {/*<Col>
                   <Button onClick={() => handleExcludeHours("jueves")}>
                     Horas Excluidas
                   </Button>
-                </Col>
+                </Col>*/}
               </React.Fragment>
             )}
           </Row>
@@ -621,11 +621,11 @@ export default function HoursForm(props) {
                     Excluir día completo
                   </Button>
                 </Col>
-                <Col>
+                {/*<Col>
                   <Button onClick={() => handleExcludeHours("viernes")}>
                     Horas Excluidas
                   </Button>
-                </Col>
+                </Col>*/}
               </React.Fragment>
             )}
           </Row>
@@ -779,11 +779,11 @@ export default function HoursForm(props) {
                   Excluir día completo
                 </Button>
               </Col>
-              <Col>
+              {/*<Col>
                 <Button onClick={() => handleExcludeHours("sabado")}>
                   Horas Excluidas
                 </Button>
-              </Col>
+              </Col>*/}
             </Row>
           </React.Fragment>
         )
@@ -855,11 +855,11 @@ export default function HoursForm(props) {
                   Excluir día completo
                 </Button>
               </Col>
-              <Col>
+              {/*<Col>
                 <Button onClick={() => handleExcludeHours("domingo")}>
                   Horas Excluidas
                 </Button>
-              </Col>
+              </Col>*/}
             </Row>
           </React.Fragment>
         )
