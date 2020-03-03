@@ -3,7 +3,7 @@ export default {
     {
       name: "Inicio",
       url: "/dashboard",
-      icon: "icon-speedometer"
+      icon: "icon-calendar"
     },
     {
       title: true,
@@ -23,12 +23,17 @@ export default {
     {
       name: "Espacios",
       url: "/spaces",
-      icon: "icon-pencil"
+      icon: "icon-social-dribbble"
     },
     {
       name: "Reservas",
-      url: "/theme/typography",
-      icon: "icon-pencil"
+      url: "/reservations",
+      icon: "icon-credit-card"
+    },
+    {
+      name: "Historial",
+      url: "/history",
+      icon: "icon-folder"
     }
   ]
 };

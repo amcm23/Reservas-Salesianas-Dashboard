@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Container, Button, Badge } from "reactstrap";
-import AddUserModal from "./AddUserModal";
-import EditUserModal from "./EditUserModal";
+import { Container, Button, Alert, Card, CardHeader } from "reactstrap";
+import AddReservationModal from "./AddReservationModal";
+import EditReservationModal from "./EditReservationModal";
 import axios from "axios";
 import Swal from "sweetalert2";
+import moment from "moment";
 
-export default function Users(props) {
-  const [users, setUsers] = useState([]);
+export default function Spaces(props) {
+  const [reservations, setReservations] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userToEdit, setUserToEdit] = useState(null);
+  const [reservationToEdit, setReservationToEdit] = useState(null);
 
   useEffect(() => {
-    fetchUsers();
+    fetchReservations();
   }, []);
 
   const [currentUser, setCurrentUser] = useState();
@@ -34,30 +35,20 @@ export default function Users(props) {
     }
   }, []);
 
-  function fetchUsers() {
+  function fetchReservations() {
     axios
-      .get(`https://reservas.rota.salesianas.com/public/usuarios.php/usuarios`)
+      .get(`https://reservas.rota.salesianas.com/public/reservas.php/reservasall`)
       .then(res => {
-        setUsers(res.data);
+        setReservations(res.data);
+        console.log("reservas: ", res.data);
       });
-  }
-
-  function typeFormatter(cell, row) {
-    return (
-      <span>
-        {row.ADMIN === 1 ? (
-          <Badge color="warning">Administrador</Badge>
-        ) : (
-          "Usuario"
-        )}
-      </span>
-    );
+    console.log("reservas: ", reservations);
   }
 
   function handleDelete(id) {
     console.log("deleting: ", id);
     Swal.fire({
-      title: "¿Está seguro que desea eliminar el usuario?",
+      title: "¿Está seguro que desea eliminar la reserva?",
       text: "Esta acción será irreversible.",
       icon: "warning",
       showCancelButton: true,
@@ -67,13 +58,13 @@ export default function Users(props) {
       if (result.value) {
         axios
           .delete(
-            `https://reservas.rota.salesianas.com/public/usuarios.php/usuarios/delete/${id}`
+            `https://reservas.rota.salesianas.com/public/reservas.php/reservas/delete/${id}`
           )
           .then(result => {
-            fetchUsers();
+            fetchReservations();
             Swal.fire({
-              title: "Eliminado",
-              text: "Usuario eliminado con éxito.",
+              title: "Eliminada",
+              text: "Reserva eliminada con éxito.",
               icon: "success",
               showConfirmButton: false,
               timer: 1500
@@ -83,10 +74,10 @@ export default function Users(props) {
     });
   }
 
-  function handleEdit(user) {
-    console.log("editing: ", user);
+  function handleEdit(reservation) {
+    console.log("editing: ", reservation);
     setEditModal(true);
-    setUserToEdit(user);
+    setReservationToEdit(reservation);
   }
 
   function hideEdit() {
@@ -114,47 +105,36 @@ export default function Users(props) {
     );
   }
 
+  function dateFormatter(cell, row) {
+    return (
+      <React.Fragment>
+       {moment(row.FECHA).format("DD/MM/YYYY")}
+      </React.Fragment>
+    );
+  }
+
+
   const columns = [
     {
       dataField: "ID",
       text: "ID"
     },
     {
-      dataField: "DNI",
-      text: "DNI"
-    },
-    {
       dataField: "NOMBRE",
-      text: "Nombre"
+      text: "Usuario"
     },
     {
-      dataField: "P_APELLIDO",
-      text: "1er Apellido"
+      dataField: "ESPACIO",
+      text: "Espacio"
     },
     {
-      dataField: "S_APELLIDO",
-      text: "2º Apellido"
+      dataField: "FECHA",
+      text: "Fecha",
+      formatter: dateFormatter
     },
     {
-      dataField: "DIRECCION",
-      text: "Dirección"
-    },
-    {
-      dataField: "EMAIL",
-      text: "Email"
-    },
-    {
-      dataField: "TELEFONO",
-      text: "Teléfono"
-    },
-    {
-      dataField: "ADMIN",
-      text: "Tipo",
-      formatter: typeFormatter
-    },
-    {
-      dataField: "ACTIVO",
-      text: "Estado"
+      dataField: "HORA",
+      text: "Hora",
     },
     {
       dataField: "",
@@ -167,36 +147,43 @@ export default function Users(props) {
     <Container>
       <Button
         onClick={() => setAddModal(!addModal)}
-        style={{ marginBottom: "1rem" }}
+        style={{ marginBottom: "1rem", marginRight: "1rem" }}
         color="primary"
       >
         Añadir
       </Button>
-      <AddUserModal
+      <AddReservationModal
         showAddModalProps={() => setAddModal(!addModal)}
         modal={addModal}
-        fetchUsers={() => fetchUsers()}
+        fetchReservations={() => fetchReservations()}
       />
-      <EditUserModal
+      <EditReservationModal
         showAddModalProps={() => setEditModal(!editModal)}
         modal={editModal}
-        fetchUsers={() => fetchUsers()}
+        fetchReservations={() => fetchReservations()}
         hideModal={hideEdit}
-        user={userToEdit}
+        reservation={reservationToEdit}
       />
-      <BootstrapTable
-        keyField="id"
-        data={users}
-        columns={columns}
-        responsive
-        reflow
-        striped={true}
-        style={{
-          overflow: "auto",
-          display: "block",
-          tableLayout: "auto"
-        }}
-      />
+
+      <Card>
+        <CardHeader>Reservas</CardHeader>
+        {reservations === "No existen reservas en la BBDD." ? (
+          <Alert color="warning">No hay reservas todavía</Alert>
+        ) : (
+          <BootstrapTable
+            keyField="id"
+            data={reservations}
+            columns={columns}
+            responsive
+            striped={true}
+            style={{
+              overflow: "auto",
+              display: "block",
+              tableLayout: "auto"
+            }}
+          />
+        )}
+      </Card>
     </Container>
   );
 }
