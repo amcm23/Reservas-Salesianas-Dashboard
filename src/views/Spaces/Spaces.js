@@ -42,6 +42,7 @@ export default function Spaces() {
             showConfirmButton: false,
             timer: 1500
           });
+          fetchSpaces(res => setSpaces(res))
         });
       }
     });

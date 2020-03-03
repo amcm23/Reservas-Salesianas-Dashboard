@@ -64,7 +64,8 @@ export default function SpaceForm(props) {
               nombre: data.nombre,
               precio: data.precio,
               tipo: data.tipo,
-              centro: 1
+              recargo: data.recargo,
+              centro: 1,
             },
             () => {
               props.fetchSpaces();

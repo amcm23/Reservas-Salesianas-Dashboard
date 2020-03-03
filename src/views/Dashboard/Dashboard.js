@@ -20,11 +20,6 @@ moment.locale("es", {
   }
 });
 
-/*useEffect(() => {
-  console.log(position.coords.latitude, 
-    position.coords.longitude)
-}, [input])*/
-
 function Dashboard(props) {
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
@@ -38,8 +33,9 @@ function Dashboard(props) {
     }
     fetchSpaces(res => {
       setSpaces(res);
-      fetchHoursBySpaceId(res[0].ID, res => {
-        setHours(res);
+      fetchHoursBySpaceId(res[0].ID, hours => {
+        setHours(hours);
+        fetchReservationsFromSpace(res[0].ID, res => setReservations(res))
       });
     });
   }, []);
