@@ -33,6 +33,7 @@ function Dashboard(props) {
     }
     fetchSpaces(res => {
       setSpaces(res);
+      setSelectedSpace(res[0].ID)
       fetchHoursBySpaceId(res[0].ID, hours => {
         setHours(hours);
         fetchReservationsFromSpace(res[0].ID, res => setReservations(res))
@@ -82,14 +83,14 @@ function Dashboard(props) {
         id: hours[i].ID,
         disponible: hours[i].DISPONIBLE,
         espacio: hours[i].ESPACIO,
-        dia: hours[i].DIA,
+        dia: hours[i].DIA === "7" ? "0" : hours[i].DIA ,
         hora: hours[i].HORA,
         startTime: hours[i].HORA,
         title: `${moment(hours[i].HORA, "HH:mm:ss").format("HH:mm")}`,
         color: hours[i].DISPONIBLE === "1" ? `#5de3da` : `gray`,
         borderColor: "dark",
         border: "100px",
-        daysOfWeek: [hours[i].DIA],
+        daysOfWeek: [hours[i].DIA === "7" ? "0" : hours[i].DIA],
         size: 100,
         allDay: false
         //startRecur: moment().format("YYYY-MM-DDTHH:mm:ssZ"),

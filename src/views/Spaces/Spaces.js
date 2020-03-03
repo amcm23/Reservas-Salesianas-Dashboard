@@ -10,7 +10,7 @@ import { fetchSpaces, deleteSpaces } from "../../actions/spaces";
 import ReusableModal from "../../components/ReusableModal";
 import Hours from "./Hours";
 
-export default function Spaces() {
+export default function Spaces(props) {
   const [spaces, setSpaces] = useState([{}]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -21,6 +21,24 @@ export default function Spaces() {
 
   useEffect(() => {
     fetchSpaces(res => setSpaces(res));
+  }, []);
+
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("auth"));
+    if (localStorage.getItem("auth") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else if(localStorage.getItem("currentUser") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else if (JSON.parse(localStorage.getItem("currentUser")).admin !=="1") {
+      props.history.push("/dashboard");
+    }else {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      console.log("currentUser --> ", currentUser);
+      setCurrentUser(currentUser);
+    }
   }, []);
 
   function handleDelete(id) {

@@ -5,6 +5,7 @@ import AddReservationModal from "./AddReservationModal";
 import EditReservationModal from "./EditReservationModal";
 import axios from "axios";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 export default function Spaces(props) {
   const [reservations, setReservations] = useState([{}]);
@@ -22,7 +23,12 @@ export default function Spaces(props) {
     if (localStorage.getItem("auth") === null) {
       console.log("UNAUTH");
       props.history.push("/login");
-    } else {
+    } else if(localStorage.getItem("currentUser") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else if (JSON.parse(localStorage.getItem("currentUser")).admin !=="1") {
+      props.history.push("/dashboard");
+    }else {
       let currentUser = JSON.parse(localStorage.getItem("currentUser"));
       console.log("currentUser --> ", currentUser);
       setCurrentUser(currentUser);
@@ -31,7 +37,7 @@ export default function Spaces(props) {
 
   function fetchReservations() {
     axios
-      .get(`https://reservas.rota.salesianas.com/public/reservas.php/reservas`)
+      .get(`https://reservas.rota.salesianas.com/public/reservas.php/reservasall`)
       .then(res => {
         setReservations(res.data);
         console.log("reservas: ", res.data);
@@ -99,13 +105,22 @@ export default function Spaces(props) {
     );
   }
 
+  function dateFormatter(cell, row) {
+    return (
+      <React.Fragment>
+       {moment(row.FECHA).format("DD/MM/YYYY")}
+      </React.Fragment>
+    );
+  }
+
+
   const columns = [
     {
       dataField: "ID",
       text: "ID"
     },
     {
-      dataField: "USUARIO",
+      dataField: "NOMBRE",
       text: "Usuario"
     },
     {
@@ -114,11 +129,12 @@ export default function Spaces(props) {
     },
     {
       dataField: "FECHA",
-      text: "Fecha"
+      text: "Fecha",
+      formatter: dateFormatter
     },
     {
       dataField: "HORA",
-      text: "Hora"
+      text: "Hora",
     },
     {
       dataField: "",

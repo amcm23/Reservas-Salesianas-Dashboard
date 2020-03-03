@@ -14,13 +14,19 @@ export default function Spaces(props) {
 
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
-    console.log("LOCALSTORAGE ITEM ---> ", localStorage.getItem("auth"));
+    var currUser = localStorage.getItem("currentUser")
+    console.log("CURRENT USOR --> ", currUser);
     if (localStorage.getItem("auth") === null) {
       console.log("UNAUTH");
       props.history.push("/login");
-    } else {
+    } else if(localStorage.getItem("currentUser") === null) {
+      console.log("UNAUTH");
+      props.history.push("/login");
+    } else if (JSON.parse(localStorage.getItem("currentUser")).admin !=="1") {
+      props.history.push("/dashboard");
+    }else {
       let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      console.log("currentUser --> ", currentUser);
+      console.log("currentUser ELSE --> ", currentUser);
       setCurrentUser(currentUser);
     }
   }, []);

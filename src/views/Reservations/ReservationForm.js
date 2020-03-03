@@ -13,8 +13,8 @@ export default function ReservationForm(props) {
   const { usuarios, espacios, reservation, hour, day, space } = props;
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
-      usuario: reservation && reservation.USUARIO,
-      espacio: space ? space : reservation && reservation.ESPACIO,
+      usuario: reservation && reservation.ID_USUARIO,
+      espacio: space ? space : reservation && reservation.ID_ESPACIO,
       fecha: day
         ? moment(day).format("YYYY-MM-DD")
         : reservation && reservation.FECHA,
@@ -130,7 +130,7 @@ export default function ReservationForm(props) {
               <select name="usuario" ref={register}>
                 {usuarios !== "No existen usuarios en la BBDD." &&
                   usuarios.map(usuario => {
-                    return <option value={usuario.ID}>{usuario.NOMBRE}</option>;
+                    return <option value={usuario.ID}>{usuario.EMAIL}</option>;
                   })}
               </select>
               {errors.usuario && (

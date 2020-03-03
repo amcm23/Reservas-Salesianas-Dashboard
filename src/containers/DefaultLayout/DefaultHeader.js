@@ -59,9 +59,9 @@ function DefaultHeader(props) {
               <DropdownItem header tag="div" className="text-center">
                 <strong>Ajustes</strong>
               </DropdownItem>
-              <DropdownItem>
+            {/**<DropdownItem>
                 <i className="fa fa-user"></i> Perfil
-              </DropdownItem>
+              </DropdownItem> */}  
               <DropdownItem onClick={e => props.onLogout(e)}>
                 <i className="fa fa-lock"></i> Cerrar sesión
               </DropdownItem>

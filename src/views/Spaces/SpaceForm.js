@@ -10,6 +10,7 @@ export default function SpaceForm(props) {
   console.log("space dentro del space form: ", space);
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
+      id: space && space.ID,
       nombre: space && space.NOMBRE,
       precio: space && space.PRECIO,
       tipo: space && space.TIPO
@@ -32,7 +33,8 @@ export default function SpaceForm(props) {
             {
               nombre: data.nombre,
               precio: data.precio,
-              tipo: data.tipo
+              tipo: data.tipo,
+              //activo: "1",
             },
             space.ID,
             () => {
@@ -64,7 +66,7 @@ export default function SpaceForm(props) {
               nombre: data.nombre,
               precio: data.precio,
               tipo: data.tipo,
-              recargo: data.recargo,
+              recargo: 0,
               centro: 1,
             },
             () => {
@@ -136,7 +138,7 @@ export default function SpaceForm(props) {
           )}
         </Col>
 
-        <Col md={2}>
+        {/*<Col md={2}>
           <Label>Recargo</Label>
         </Col>
         <Col md={10}>
@@ -147,7 +149,7 @@ export default function SpaceForm(props) {
             placeholder="Recargo"
             style={{ width: "100%" }}
           />
-        </Col>
+          </Col>*/}
       </Row>
 
       <Button type="submit" color="primary" style={{ marginTop: "1.5rem" }}>

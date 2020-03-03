@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { login } from "../../../actions/auth";
 import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 function Register(props) {
   const { register, handleSubmit, errors, setError } = useForm();
@@ -48,24 +49,45 @@ function Register(props) {
           pass: data.pass
         }
       }).then(res => {
-        console.log(res);
-        console.log(res.data);
-        login(
-          {
-            email: data.email,
-            password: data.pass
-          },
-          res => {
-            var decoded = jwt_decode(res.permiso);
-            console.log("DECODED ---> ", decoded.id);
-            localStorage.setItem("auth", res.permiso);
-            localStorage.setItem("currentUser", JSON.stringify(decoded));
-            props.history.push("/dashboard");
-          }
-        );
-      });
-    }
-  };
+        if(res.data ===`Message sent!{"error" : {"text":SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '${data.dni}' for key 'DNI'}`) {
+          Swal.fire({
+            title: "Error en el registro",
+            text: "El DNI insertado ya está registrado en nuestros sistemas",
+            icon: "error"
+          })
+        } else if(res.data === `Message sent!{"error" : {"text":SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '${data.email}' for key 'EMAIL'}`){
+          Swal.fire({
+            title: "Error en el registro",
+            text: "El email insertado ya está registrado en nuestros sistemas",
+            icon: "error"
+          })
+        } else {
+          console.log(res);
+          console.log(res.data);
+          Swal.fire({
+            title: "Registro exitoso",
+            text: "Se ha registrado correctamente en nuestro sistema, ahora puede iniciar sesión.",
+            icon: "success"
+          })
+          login(
+            {
+              email: data.email,
+              password: data.pass
+            },
+            res => {
+              var decoded = jwt_decode(res.permiso);
+              console.log("DECODED ---> ", decoded.id);
+              localStorage.setItem("auth", res.permiso);
+              localStorage.setItem("currentUser", JSON.stringify(decoded));
+              props.history.push("/dashboard");
+            }
+          );
+        }
+        
+        
+    })
+  }
+  }
 
   return (
     <div className="app flex-row align-items-center">

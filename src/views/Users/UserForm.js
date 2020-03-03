@@ -16,7 +16,8 @@ export default function UserForm(props) {
       direccion: user && user.DIRECCION,
       email: user && user.EMAIL,
       telefono: user && user.TELEFONO,
-      pass: user && user.PASS
+      pass: user && user.PASS,
+      admin: user && user.ADMIN
     }
   });
   const onSubmit = data => {
@@ -44,6 +45,7 @@ export default function UserForm(props) {
               email: data.email,
               telefono: data.telefono,
               pass: data.pass,
+              admin: data.admin,
               activo: true
             }
           }).then(res => {

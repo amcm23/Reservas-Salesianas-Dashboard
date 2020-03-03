@@ -103,7 +103,7 @@ export default function HoursForm(props) {
                 horamax: parseInt(data.lvmax),
                 borrado: []
               },
-              props.fetchHours()
+              () => props.fetchHours()
             );
             createHour(
               {
@@ -113,7 +113,7 @@ export default function HoursForm(props) {
                 horamax: parseInt(data.smax),
                 borrado: []
               },
-              props.fetchHours()
+              () => props.fetchHours()
             );
             createHour(
               {
@@ -123,7 +123,7 @@ export default function HoursForm(props) {
                 horamax: parseInt(data.dmax),
                 borrado: []
               },
-              props.fetchHours()
+              () => props.fetchHours()
             );
           } else if (data.ldmin && data.ldmax) {
             createHour(
@@ -134,7 +134,7 @@ export default function HoursForm(props) {
                 horamax: parseInt(data.ldmax),
                 borrado: []
               },
-              props.fetchHours()
+              () => props.fetchHours()
             );
           } else {
             if (data.lmin && data.lmax) {
@@ -147,7 +147,7 @@ export default function HoursForm(props) {
                   horamax: parseInt(data.lmax),
                   borrado: [{ dia: 1, horas: excludedL }]
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.mmin && data.mmax) {
@@ -159,7 +159,7 @@ export default function HoursForm(props) {
                   horamax: parseInt(data.mmax),
                   borrado: [{ dia: 2, horas: excludedM }]
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.xmin && data.xmax) {
@@ -171,7 +171,7 @@ export default function HoursForm(props) {
                   horamax: parseInt(data.xmax),
                   borrado: [{ dia: 3, horas: excludedX }]
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.jmin && data.jmax) {
@@ -183,7 +183,7 @@ export default function HoursForm(props) {
                   horamax: parseInt(data.jmax),
                   borrado: [{ dia: 4, horas: excludedJ }]
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.vmin && data.vmax) {
@@ -195,7 +195,7 @@ export default function HoursForm(props) {
                   horamax: parseInt(data.vmax),
                   borrado: [{ dia: 5, horas: excludedV }]
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.smin && data.smax) {
@@ -205,9 +205,9 @@ export default function HoursForm(props) {
                   espacio: parseInt(space),
                   horamin: parseInt(data.smin),
                   horamax: parseInt(data.smax),
-                  borrado: [{ dia: 6, horas: excludedS }]
+                  borrado: []
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
             if (data.dmin && data.dmax) {
@@ -217,9 +217,9 @@ export default function HoursForm(props) {
                   espacio: parseInt(space),
                   horamin: parseInt(data.dmin),
                   horamax: parseInt(data.dmax),
-                  borrado: [{ dia: 7, horas: excludedD }]
+                  borrado: []
                 },
-                props.fetchHours()
+                () => props.fetchHours()
               );
             }
           }
@@ -745,7 +745,7 @@ export default function HoursForm(props) {
                   <Col>
                     Hora min:
                     <select
-                      name="sminm"
+                      name="smin"
                       ref={register({ required: true })}
                       style={{ marginLeft: 5 }}
                     >
@@ -753,14 +753,14 @@ export default function HoursForm(props) {
                         return <option value={hour.value}>{hour.title}</option>;
                       })}
                     </select>
-                    {errors.sminm && (
-                      <p style={{ color: "red" }}>{errors.sminm.message}</p>
+                    {errors.smin && (
+                      <p style={{ color: "red" }}>{errors.smin.message}</p>
                     )}
                   </Col>
                   <Col>
                     Hora máx:
                     <select
-                      name="smaxm"
+                      name="smax"
                       ref={register({ required: true })}
                       style={{ marginLeft: 5 }}
                     >
@@ -768,8 +768,8 @@ export default function HoursForm(props) {
                         return <option value={hour.value}>{hour.title}</option>;
                       })}
                     </select>
-                    {errors.smaxm && (
-                      <p style={{ color: "red" }}>{errors.smaxm.message}</p>
+                    {errors.smax && (
+                      <p style={{ color: "red" }}>{errors.smax.message}</p>
                     )}
                   </Col>
                 </Row>

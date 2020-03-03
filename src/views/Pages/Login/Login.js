@@ -87,11 +87,6 @@ function Login(props) {
                           Login
                         </Button>
                       </Col>
-                      <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">
-                          ¿Olvidaste tu contraseña?
-                        </Button>
-                      </Col>
                     </Row>
                   </form>
                 </CardBody>
